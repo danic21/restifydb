@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -16,7 +16,6 @@ use RandomLib;
  */
 abstract class Rand
 {
-
     /**
      * Alternative random byte generator using RandomLib
      *
@@ -34,25 +33,19 @@ abstract class Rand
      */
     public static function getBytes($length, $strong = false)
     {
-        $length = (int)$length;
+        $length = (int) $length;
 
         if ($length <= 0) {
             return false;
         }
 
-        if (function_exists('openssl_random_pseudo_bytes')
-            && ((PHP_VERSION_ID >= 50304)
-                || strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
-        ) {
+        if (function_exists('openssl_random_pseudo_bytes')) {
             $bytes = openssl_random_pseudo_bytes($length, $usable);
             if (true === $usable) {
                 return $bytes;
             }
         }
-        if (function_exists('mcrypt_create_iv')
-            && ((PHP_VERSION_ID >= 50307)
-                || strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
-        ) {
+        if (function_exists('mcrypt_create_iv')) {
             $bytes = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
             if ($bytes !== false && strlen($bytes) === $length) {
                 return $bytes;
@@ -61,7 +54,7 @@ abstract class Rand
         $checkAlternatives = (file_exists('/dev/urandom') && is_readable('/dev/urandom'))
             || class_exists('\\COM', false);
         if (true === $strong && false === $checkAlternatives) {
-            throw new Exception\RuntimeException (
+            throw new Exception\RuntimeException(
                 'This PHP environment doesn\'t support secure random number generation. ' .
                 'Please consider installing the OpenSSL and/or Mcrypt extensions'
             );
@@ -105,7 +98,7 @@ abstract class Rand
     public static function getBoolean($strong = false)
     {
         $byte = static::getBytes(1, $strong);
-        return (bool)(ord($byte) % 2);
+        return (bool) (ord($byte) % 2);
     }
 
     /**
@@ -141,12 +134,12 @@ abstract class Rand
             $r >>= 1;
         }
 
-        $bits = (int)max($bits, 1);
-        $bytes = (int)max(ceil($bits / 8), 1);
-        $filter = (int)((1 << $bits) - 1);
+        $bits   = (int) max($bits, 1);
+        $bytes  = (int) max(ceil($bits / 8), 1);
+        $filter = (int) ((1 << $bits) - 1);
 
         do {
-            $rnd = hexdec(bin2hex(static::getBytes($bytes, $strong)));
+            $rnd  = hexdec(bin2hex(static::getBytes($bytes, $strong)));
             $rnd &= $filter;
         } while ($rnd > $range);
 
@@ -162,14 +155,14 @@ abstract class Rand
      * and we fix the exponent to the bias (1023). In this way we generate
      * a float of 1.mantissa.
      *
-     * @param  bool $strong true if you need a strong random generator (cryptography)
+     * @param  bool $strong  true if you need a strong random generator (cryptography)
      * @return float
      */
     public static function getFloat($strong = false)
     {
-        $bytes = static::getBytes(7, $strong);
+        $bytes    = static::getBytes(7, $strong);
         $bytes[6] = $bytes[6] | chr(0xF0);
-        $bytes .= chr(63); // exponent bias (1023)
+        $bytes   .= chr(63); // exponent bias (1023)
         list(, $float) = unpack('d', $bytes);
 
         return ($float - 1);
@@ -183,7 +176,7 @@ abstract class Rand
      *
      * @param  int $length
      * @param  string|null $charlist
-     * @param  bool $strong true if you need a strong random generator (cryptography)
+     * @param  bool $strong  true if you need a strong random generator (cryptography)
      * @return string
      * @throws Exception\DomainException
      */
@@ -196,7 +189,7 @@ abstract class Rand
         // charlist is empty or not provided
         if (empty($charlist)) {
             $numBytes = ceil($length * 0.75);
-            $bytes = static::getBytes($numBytes, $strong);
+            $bytes    = static::getBytes($numBytes, $strong);
             return substr(rtrim(base64_encode($bytes), '='), 0, $length);
         }
 
@@ -206,11 +199,11 @@ abstract class Rand
             return str_repeat($charlist, $length);
         }
 
-        $bytes = static::getBytes($length, $strong);
-        $pos = 0;
+        $bytes  = static::getBytes($length, $strong);
+        $pos    = 0;
         $result = '';
         for ($i = 0; $i < $length; $i++) {
-            $pos = ($pos + ord($bytes[$i])) % $listLen;
+            $pos     = ($pos + ord($bytes[$i])) % $listLen;
             $result .= $charlist[$pos];
         }
 

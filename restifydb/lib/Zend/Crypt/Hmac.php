@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -29,16 +29,15 @@ class Hmac
      * algorithm, the data to compute MAC of, and an output format of String,
      * or Binary.
      *
-     * @param  string $key
-     * @param  string $hash
-     * @param  string $data
+     * @param  string  $key
+     * @param  string  $hash
+     * @param  string  $data
      * @param  bool $output
      * @throws Exception\InvalidArgumentException
      * @return string
      */
     public static function compute($key, $hash, $data, $output = self::OUTPUT_STRING)
     {
-
         if (empty($key)) {
             throw new Exception\InvalidArgumentException('Provided key is null or empty');
         }
@@ -55,7 +54,7 @@ class Hmac
     /**
      * Get the output size according to the hash algorithm and the output format
      *
-     * @param  string $hash
+     * @param  string  $hash
      * @param  bool $output
      * @return int
      */

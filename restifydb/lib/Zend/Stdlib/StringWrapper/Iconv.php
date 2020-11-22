@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -235,8 +235,8 @@ class Iconv extends AbstractStringWrapper
     /**
      * Returns the portion of string specified by the start and length parameters
      *
-     * @param string $str
-     * @param int $offset
+     * @param string   $str
+     * @param int      $offset
      * @param int|null $length
      * @return string|false
      */
@@ -250,7 +250,7 @@ class Iconv extends AbstractStringWrapper
      *
      * @param string $haystack
      * @param string $needle
-     * @param int $offset
+     * @param int    $offset
      * @return int|false
      */
     public function strpos($haystack, $needle, $offset = 0)
@@ -261,13 +261,13 @@ class Iconv extends AbstractStringWrapper
     /**
      * Convert a string from defined encoding to the defined convert encoding
      *
-     * @param string $str
+     * @param string  $str
      * @param bool $reverse
      * @return string|false
      */
     public function convert($str, $reverse = false)
     {
-        $encoding = $this->getEncoding();
+        $encoding        = $this->getEncoding();
         $convertEncoding = $this->getConvertEncoding();
         if ($convertEncoding === null) {
             throw new Exception\LogicException(
@@ -280,7 +280,7 @@ class Iconv extends AbstractStringWrapper
         }
 
         $fromEncoding = $reverse ? $convertEncoding : $encoding;
-        $toEncoding = $reverse ? $encoding : $convertEncoding;
+        $toEncoding   = $reverse ? $encoding : $convertEncoding;
 
         // automatically add "//IGNORE" to not stop converting on invalid characters
         // invalid characters triggers a notice anyway

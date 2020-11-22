@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -33,8 +33,8 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
 
     /**
      * @param array|Connection|resource $connection
-     * @param null|Statement $statementPrototype
-     * @param null|Result $resultPrototype
+     * @param null|Statement            $statementPrototype
+     * @param null|Result               $resultPrototype
      */
     public function __construct($connection, Statement $statementPrototype = null, Result $resultPrototype = null)
     {
@@ -43,8 +43,8 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
         }
 
         $this->registerConnection($connection);
-        $this->registerStatementPrototype(($statementPrototype) ? : new Statement());
-        $this->registerResultPrototype(($resultPrototype) ? : new Result());
+        $this->registerStatementPrototype(($statementPrototype) ?: new Statement());
+        $this->registerResultPrototype(($resultPrototype) ?: new Result());
     }
 
     /**
@@ -194,7 +194,7 @@ class IbmDb2 implements DriverInterface, Profiler\ProfilerAwareInterface
      * Format parameter name
      *
      * @param string $name
-     * @param mixed $type
+     * @param mixed  $type
      * @return string
      */
     public function formatParameterName($name, $type = null)

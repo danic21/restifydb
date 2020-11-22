@@ -3,12 +3,11 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Stdlib\Hydrator\Aggregate;
-
 
 use Zend\EventManager\Event;
 
@@ -38,13 +37,13 @@ class HydrateEvent extends Event
     /**
      * @param object $target
      * @param object $hydratedObject
-     * @param array $hydrationData
+     * @param array  $hydrationData
      */
     public function __construct($target, $hydratedObject, array $hydrationData)
     {
-        $this->target = $target;
+        $this->target         = $target;
         $this->hydratedObject = $hydratedObject;
-        $this->hydrationData = $hydrationData;
+        $this->hydrationData  = $hydrationData;
     }
 
     /**

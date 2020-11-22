@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -23,9 +23,9 @@ class MysqlMetadata extends AbstractSource
         $p = $this->adapter->getPlatform();
 
         $sql = 'SELECT ' . $p->quoteIdentifier('SCHEMA_NAME')
-            . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'SCHEMATA'))
-            . ' WHERE ' . $p->quoteIdentifier('SCHEMA_NAME')
-            . ' != \'INFORMATION_SCHEMA\'';
+             . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'SCHEMATA'))
+             . ' WHERE ' . $p->quoteIdentifier('SCHEMA_NAME')
+             . ' != \'INFORMATION_SCHEMA\'';
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
 
@@ -54,28 +54,26 @@ class MysqlMetadata extends AbstractSource
             array('V', 'IS_UPDATABLE'),
         );
 
-        array_walk($isColumns, function (&$c) use ($p) {
-            $c = $p->quoteIdentifierChain($c);
-        });
+        array_walk($isColumns, function (&$c) use ($p) { $c = $p->quoteIdentifierChain($c); });
 
         $sql = 'SELECT ' . implode(', ', $isColumns)
-            . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . 'T'
+             . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . 'T'
 
-            . ' LEFT JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'VIEWS')) . ' V'
-            . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-            . '  = ' . $p->quoteIdentifierChain(array('V', 'TABLE_SCHEMA'))
-            . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('V', 'TABLE_NAME'))
+             . ' LEFT JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'VIEWS')) . ' V'
+             . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
+             . '  = ' . $p->quoteIdentifierChain(array('V', 'TABLE_SCHEMA'))
+             . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
+             . '  = ' . $p->quoteIdentifierChain(array('V', 'TABLE_NAME'))
 
-            . ' WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
-            . ' IN (\'BASE TABLE\', \'VIEW\')';
+             . ' WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
+             . ' IN (\'BASE TABLE\', \'VIEW\')';
 
         if ($schema != self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' = ' . $p->quoteTrustedValue($schema);
+                  . ' = ' . $p->quoteTrustedValue($schema);
         } else {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' != \'INFORMATION_SCHEMA\'';
+                  . ' != \'INFORMATION_SCHEMA\'';
         }
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
@@ -114,28 +112,26 @@ class MysqlMetadata extends AbstractSource
             array('C', 'COLUMN_TYPE'),
         );
 
-        array_walk($isColumns, function (&$c) use ($p) {
-            $c = $p->quoteIdentifierChain($c);
-        });
+        array_walk($isColumns, function (&$c) use ($p) { $c = $p->quoteIdentifierChain($c); });
 
         $sql = 'SELECT ' . implode(', ', $isColumns)
-            . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . 'T'
-            . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'COLUMNS')) . 'C'
-            . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-            . '  = ' . $p->quoteIdentifierChain(array('C', 'TABLE_SCHEMA'))
-            . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('C', 'TABLE_NAME'))
-            . ' WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
-            . ' IN (\'BASE TABLE\', \'VIEW\')'
-            . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
-            . '  = ' . $p->quoteTrustedValue($table);
+             . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . 'T'
+             . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'COLUMNS')) . 'C'
+             . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
+             . '  = ' . $p->quoteIdentifierChain(array('C', 'TABLE_SCHEMA'))
+             . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
+             . '  = ' . $p->quoteIdentifierChain(array('C', 'TABLE_NAME'))
+             . ' WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
+             . ' IN (\'BASE TABLE\', \'VIEW\')'
+             . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
+             . '  = ' . $p->quoteTrustedValue($table);
 
         if ($schema != self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' = ' . $p->quoteTrustedValue($schema);
+                  . ' = ' . $p->quoteTrustedValue($schema);
         } else {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' != \'INFORMATION_SCHEMA\'';
+                  . ' != \'INFORMATION_SCHEMA\'';
         }
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
@@ -153,16 +149,16 @@ class MysqlMetadata extends AbstractSource
                 $erratas['permitted_values'] = $permittedValues;
             }
             $columns[$row['COLUMN_NAME']] = array(
-                'ordinal_position' => $row['ORDINAL_POSITION'],
-                'column_default' => $row['COLUMN_DEFAULT'],
-                'is_nullable' => ('YES' == $row['IS_NULLABLE']),
-                'data_type' => $row['DATA_TYPE'],
-                'character_maximum_length' => $row['CHARACTER_MAXIMUM_LENGTH'],
-                'character_octet_length' => $row['CHARACTER_OCTET_LENGTH'],
-                'numeric_precision' => $row['NUMERIC_PRECISION'],
-                'numeric_scale' => $row['NUMERIC_SCALE'],
-                'numeric_unsigned' => (false !== strpos($row['COLUMN_TYPE'], 'unsigned')),
-                'erratas' => $erratas,
+                'ordinal_position'          => $row['ORDINAL_POSITION'],
+                'column_default'            => $row['COLUMN_DEFAULT'],
+                'is_nullable'               => ('YES' == $row['IS_NULLABLE']),
+                'data_type'                 => $row['DATA_TYPE'],
+                'character_maximum_length'  => $row['CHARACTER_MAXIMUM_LENGTH'],
+                'character_octet_length'    => $row['CHARACTER_OCTET_LENGTH'],
+                'numeric_precision'         => $row['NUMERIC_PRECISION'],
+                'numeric_scale'             => $row['NUMERIC_SCALE'],
+                'numeric_unsigned'          => (false !== strpos($row['COLUMN_TYPE'], 'unsigned')),
+                'erratas'                   => $erratas,
             );
         }
 
@@ -197,49 +193,49 @@ class MysqlMetadata extends AbstractSource
         });
 
         $sql = 'SELECT ' . implode(', ', $isColumns)
-            . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . ' T'
+             . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . ' T'
 
-            . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLE_CONSTRAINTS')) . ' TC'
-            . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-            . '  = ' . $p->quoteIdentifierChain(array('TC', 'TABLE_SCHEMA'))
-            . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('TC', 'TABLE_NAME'))
+             . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLE_CONSTRAINTS')) . ' TC'
+             . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
+             . '  = ' . $p->quoteIdentifierChain(array('TC', 'TABLE_SCHEMA'))
+             . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
+             . '  = ' . $p->quoteIdentifierChain(array('TC', 'TABLE_NAME'))
 
-            . ' LEFT JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'KEY_COLUMN_USAGE')) . ' KCU'
-            . ' ON ' . $p->quoteIdentifierChain(array('TC', 'TABLE_SCHEMA'))
-            . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_SCHEMA'))
-            . ' AND ' . $p->quoteIdentifierChain(array('TC', 'TABLE_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_NAME'))
-            . ' AND ' . $p->quoteIdentifierChain(array('TC', 'CONSTRAINT_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('KCU', 'CONSTRAINT_NAME'))
+             . ' LEFT JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'KEY_COLUMN_USAGE')) . ' KCU'
+             . ' ON ' . $p->quoteIdentifierChain(array('TC', 'TABLE_SCHEMA'))
+             . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_SCHEMA'))
+             . ' AND ' . $p->quoteIdentifierChain(array('TC', 'TABLE_NAME'))
+             . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_NAME'))
+             . ' AND ' . $p->quoteIdentifierChain(array('TC', 'CONSTRAINT_NAME'))
+             . '  = ' . $p->quoteIdentifierChain(array('KCU', 'CONSTRAINT_NAME'))
 
-            . ' LEFT JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'REFERENTIAL_CONSTRAINTS')) . ' RC'
-            . ' ON ' . $p->quoteIdentifierChain(array('TC', 'CONSTRAINT_SCHEMA'))
-            . '  = ' . $p->quoteIdentifierChain(array('RC', 'CONSTRAINT_SCHEMA'))
-            . ' AND ' . $p->quoteIdentifierChain(array('TC', 'CONSTRAINT_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('RC', 'CONSTRAINT_NAME'))
+             . ' LEFT JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'REFERENTIAL_CONSTRAINTS')) . ' RC'
+             . ' ON ' . $p->quoteIdentifierChain(array('TC', 'CONSTRAINT_SCHEMA'))
+             . '  = ' . $p->quoteIdentifierChain(array('RC', 'CONSTRAINT_SCHEMA'))
+             . ' AND ' . $p->quoteIdentifierChain(array('TC', 'CONSTRAINT_NAME'))
+             . '  = ' . $p->quoteIdentifierChain(array('RC', 'CONSTRAINT_NAME'))
 
-            . ' WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
-            . ' = ' . $p->quoteTrustedValue($table)
-            . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
-            . ' IN (\'BASE TABLE\', \'VIEW\')';
+             . ' WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
+             . ' = ' . $p->quoteTrustedValue($table)
+             . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
+             . ' IN (\'BASE TABLE\', \'VIEW\')';
 
         if ($schema != self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' = ' . $p->quoteTrustedValue($schema);
+            . ' = ' . $p->quoteTrustedValue($schema);
         } else {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' != \'INFORMATION_SCHEMA\'';
+            . ' != \'INFORMATION_SCHEMA\'';
         }
 
         $sql .= ' ORDER BY CASE ' . $p->quoteIdentifierChain(array('TC', 'CONSTRAINT_TYPE'))
-            . " WHEN 'PRIMARY KEY' THEN 1"
-            . " WHEN 'UNIQUE' THEN 2"
-            . " WHEN 'FOREIGN KEY' THEN 3"
-            . " ELSE 4 END"
+              . " WHEN 'PRIMARY KEY' THEN 1"
+              . " WHEN 'UNIQUE' THEN 2"
+              . " WHEN 'FOREIGN KEY' THEN 3"
+              . " ELSE 4 END"
 
-            . ', ' . $p->quoteIdentifierChain(array('TC', 'CONSTRAINT_NAME'))
-            . ', ' . $p->quoteIdentifierChain(array('KCU', 'ORDINAL_POSITION'));
+              . ', ' . $p->quoteIdentifierChain(array('TC', 'CONSTRAINT_NAME'))
+              . ', ' . $p->quoteIdentifierChain(array('KCU', 'ORDINAL_POSITION'));
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
 
@@ -257,16 +253,16 @@ class MysqlMetadata extends AbstractSource
                 $constraints[$name] = array(
                     'constraint_name' => $name,
                     'constraint_type' => $row['CONSTRAINT_TYPE'],
-                    'table_name' => $row['TABLE_NAME'],
-                    'columns' => array(),
+                    'table_name'      => $row['TABLE_NAME'],
+                    'columns'         => array(),
                 );
                 if ($isFK) {
                     $constraints[$name]['referenced_table_schema'] = $row['REFERENCED_TABLE_SCHEMA'];
-                    $constraints[$name]['referenced_table_name'] = $row['REFERENCED_TABLE_NAME'];
-                    $constraints[$name]['referenced_columns'] = array();
-                    $constraints[$name]['match_option'] = $row['MATCH_OPTION'];
-                    $constraints[$name]['update_rule'] = $row['UPDATE_RULE'];
-                    $constraints[$name]['delete_rule'] = $row['DELETE_RULE'];
+                    $constraints[$name]['referenced_table_name']   = $row['REFERENCED_TABLE_NAME'];
+                    $constraints[$name]['referenced_columns']      = array();
+                    $constraints[$name]['match_option']       = $row['MATCH_OPTION'];
+                    $constraints[$name]['update_rule']        = $row['UPDATE_RULE'];
+                    $constraints[$name]['delete_rule']        = $row['DELETE_RULE'];
                 }
             }
             $constraints[$name]['columns'][] = $row['COLUMN_NAME'];
@@ -299,21 +295,21 @@ class MysqlMetadata extends AbstractSource
         });
 
         $sql = 'SELECT ' . implode(', ', $isColumns)
-            . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . 'T'
-            . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLE_CONSTRAINTS')) . 'TC'
-            . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-            . '  = ' . $p->quoteIdentifierChain(array('TC', 'TABLE_SCHEMA'))
-            . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('TC', 'TABLE_NAME'))
-            . ' WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
-            . ' IN (\'BASE TABLE\', \'VIEW\')';
+        . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . 'T'
+        . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLE_CONSTRAINTS')) . 'TC'
+        . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
+        . '  = ' . $p->quoteIdentifierChain(array('TC', 'TABLE_SCHEMA'))
+        . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
+        . '  = ' . $p->quoteIdentifierChain(array('TC', 'TABLE_NAME'))
+        . ' WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
+        . ' IN (\'BASE TABLE\', \'VIEW\')';
 
         if ($schema != self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' = ' . $p->quoteTrustedValue($schema);
+            . ' = ' . $p->quoteTrustedValue($schema);
         } else {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' != \'INFORMATION_SCHEMA\'';
+            . ' != \'INFORMATION_SCHEMA\'';
         }
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
@@ -348,23 +344,23 @@ class MysqlMetadata extends AbstractSource
         });
 
         $sql = 'SELECT ' . implode(', ', $isColumns)
-            . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . 'T'
+        . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . 'T'
 
-            . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'KEY_COLUMN_USAGE')) . 'KCU'
-            . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-            . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_SCHEMA'))
-            . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_NAME'))
+        . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'KEY_COLUMN_USAGE')) . 'KCU'
+        . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
+        . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_SCHEMA'))
+        . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
+        . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_NAME'))
 
-            . ' WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
-            . ' IN (\'BASE TABLE\', \'VIEW\')';
+        . ' WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
+        . ' IN (\'BASE TABLE\', \'VIEW\')';
 
         if ($schema != self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' = ' . $p->quoteTrustedValue($schema);
+            . ' = ' . $p->quoteTrustedValue($schema);
         } else {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' != \'INFORMATION_SCHEMA\'';
+            . ' != \'INFORMATION_SCHEMA\'';
         }
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
@@ -398,31 +394,31 @@ class MysqlMetadata extends AbstractSource
         });
 
         $sql = 'SELECT ' . implode(', ', $isColumns)
-            . 'FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . 'T'
+        . 'FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TABLES')) . 'T'
 
-            . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'REFERENTIAL_CONSTRAINTS')) . 'RC'
-            . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-            . '  = ' . $p->quoteIdentifierChain(array('RC', 'CONSTRAINT_SCHEMA'))
-            . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('RC', 'TABLE_NAME'))
+        . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'REFERENTIAL_CONSTRAINTS')) . 'RC'
+        . ' ON ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
+        . '  = ' . $p->quoteIdentifierChain(array('RC', 'CONSTRAINT_SCHEMA'))
+        . ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_NAME'))
+        . '  = ' . $p->quoteIdentifierChain(array('RC', 'TABLE_NAME'))
 
-            . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'KEY_COLUMN_USAGE')) . 'KCU'
-            . ' ON ' . $p->quoteIdentifierChain(array('RC', 'CONSTRAINT_SCHEMA'))
-            . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_SCHEMA'))
-            . ' AND ' . $p->quoteIdentifierChain(array('RC', 'TABLE_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_NAME'))
-            . ' AND ' . $p->quoteIdentifierChain(array('RC', 'CONSTRAINT_NAME'))
-            . '  = ' . $p->quoteIdentifierChain(array('KCU', 'CONSTRAINT_NAME'))
+        . ' INNER JOIN ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'KEY_COLUMN_USAGE')) . 'KCU'
+        . ' ON ' . $p->quoteIdentifierChain(array('RC', 'CONSTRAINT_SCHEMA'))
+        . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_SCHEMA'))
+        . ' AND ' . $p->quoteIdentifierChain(array('RC', 'TABLE_NAME'))
+        . '  = ' . $p->quoteIdentifierChain(array('KCU', 'TABLE_NAME'))
+        . ' AND ' . $p->quoteIdentifierChain(array('RC', 'CONSTRAINT_NAME'))
+        . '  = ' . $p->quoteIdentifierChain(array('KCU', 'CONSTRAINT_NAME'))
 
-            . 'WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
-            . ' IN (\'BASE TABLE\', \'VIEW\')';
+        . 'WHERE ' . $p->quoteIdentifierChain(array('T', 'TABLE_TYPE'))
+        . ' IN (\'BASE TABLE\', \'VIEW\')';
 
         if ($schema != self::DEFAULT_SCHEMA) {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' = ' . $p->quoteTrustedValue($schema);
+            . ' = ' . $p->quoteTrustedValue($schema);
         } else {
             $sql .= ' AND ' . $p->quoteIdentifierChain(array('T', 'TABLE_SCHEMA'))
-                . ' != \'INFORMATION_SCHEMA\'';
+            . ' != \'INFORMATION_SCHEMA\'';
         }
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);
@@ -470,15 +466,15 @@ class MysqlMetadata extends AbstractSource
         });
 
         $sql = 'SELECT ' . implode(', ', $isColumns)
-            . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TRIGGERS'))
-            . ' WHERE ';
+        . ' FROM ' . $p->quoteIdentifierChain(array('INFORMATION_SCHEMA', 'TRIGGERS'))
+        . ' WHERE ';
 
         if ($schema != self::DEFAULT_SCHEMA) {
             $sql .= $p->quoteIdentifier('TRIGGER_SCHEMA')
-                . ' = ' . $p->quoteTrustedValue($schema);
+            . ' = ' . $p->quoteTrustedValue($schema);
         } else {
             $sql .= $p->quoteIdentifier('TRIGGER_SCHEMA')
-                . ' != \'INFORMATION_SCHEMA\'';
+            . ' != \'INFORMATION_SCHEMA\'';
         }
 
         $results = $this->adapter->query($sql, Adapter::QUERY_MODE_EXECUTE);

@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -15,13 +15,13 @@ use Zend\Db\Sql\Exception;
 class PredicateSet implements PredicateInterface, Countable
 {
     const COMBINED_BY_AND = 'AND';
-    const OP_AND = 'AND';
+    const OP_AND          = 'AND';
 
-    const COMBINED_BY_OR = 'OR';
-    const OP_OR = 'OR';
+    const COMBINED_BY_OR  = 'OR';
+    const OP_OR           = 'OR';
 
     protected $defaultCombination = self::COMBINED_BY_AND;
-    protected $predicates = array();
+    protected $predicates         = array();
 
     /**
      * Constructor
@@ -61,6 +61,13 @@ class PredicateSet implements PredicateInterface, Countable
         return $this;
     }
 
+    /**
+     * Add predicates to set
+     *
+     * @param PredicateInterface|\Closure|string|array $predicates
+     * @param string $combination
+     * @return PredicateSet
+     */
     public function addPredicates($predicates, $combination = self::OP_AND)
     {
         if ($predicates === null) {
@@ -91,7 +98,7 @@ class PredicateSet implements PredicateInterface, Countable
                         $predicates = new Expression($pkey, $pvalue);
                     } elseif ($pvalue === null) { // Otherwise, if still a string, do something intelligent with the PHP type provided
                         // map PHP null to SQL IS NULL expression
-                        $predicates = new IsNull($pkey, $pvalue);
+                        $predicates = new IsNull($pkey);
                     } elseif (is_array($pvalue)) {
                         // if the value is an array, assume IN() is desired
                         $predicates = new In($pkey, $pvalue);
@@ -160,7 +167,6 @@ class PredicateSet implements PredicateInterface, Countable
     {
         $parts = array();
         for ($i = 0, $count = count($this->predicates); $i < $count; $i++) {
-
             /** @var $predicate PredicateInterface */
             $predicate = $this->predicates[$i][1];
 
@@ -174,8 +180,8 @@ class PredicateSet implements PredicateInterface, Countable
                 $parts[] = ')';
             }
 
-            if (isset($this->predicates[$i + 1])) {
-                $parts[] = sprintf(' %s ', $this->predicates[$i + 1][0]);
+            if (isset($this->predicates[$i+1])) {
+                $parts[] = sprintf(' %s ', $this->predicates[$i+1][0]);
             }
         }
         return $parts;

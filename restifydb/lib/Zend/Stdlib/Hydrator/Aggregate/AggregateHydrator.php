@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -30,7 +30,7 @@ class AggregateHydrator implements HydratorInterface, EventManagerAwareInterface
      * Attaches the provided hydrator to the list of hydrators to be used while hydrating/extracting data
      *
      * @param \Zend\Stdlib\Hydrator\HydratorInterface $hydrator
-     * @param int $priority
+     * @param int                                     $priority
      */
     public function add(HydratorInterface $hydrator, $priority = self::DEFAULT_PRIORITY)
     {

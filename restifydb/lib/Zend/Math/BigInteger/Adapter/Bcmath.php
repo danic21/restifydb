@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -34,25 +34,25 @@ class Bcmath implements AdapterInterface
      */
     public function init($operand, $base = null)
     {
-        $sign = (strpos($operand, '-') === 0) ? '-' : '';
+        $sign    = (strpos($operand, '-') === 0) ? '-' : '';
         $operand = ltrim($operand, '-+');
 
         if (null === $base) {
             // decimal
             if (preg_match('#^([1-9][0-9]*)$#', $operand, $m)) {
-                $base = 10;
+                $base    = 10;
                 $operand = $m[1];
-                // octal
+            // octal
             } elseif (preg_match('#^(0[0-7]+)$#', $operand, $m)) {
-                $base = 8;
+                $base    = 8;
                 $operand = $m[1];
-                // hex
+            // hex
             } elseif (preg_match('#^(?:0x)?([0-9a-f]+)$#', strtolower($operand), $m)) {
-                $base = 16;
+                $base    = 16;
                 $operand = $m[1];
-                // scientific notation
+            // scientific notation
             } elseif (preg_match('#^([1-9]?\.?[0-9]+)[eE]\+?([0-9]+)$#', $operand, $m)) {
-                $base = 10;
+                $base    = 10;
                 $operand = bcmul($m[1], bcpow('10', $m[2]));
             } else {
                 return false;
@@ -212,8 +212,8 @@ class Bcmath implements AdapterInterface
     public function intToBin($operand, $twoc = false)
     {
         $nb = chr(0);
-        $isNegative = (strpos($operand, '-') === 0) ? true : false;
-        $operand = ltrim($operand, '+-0');
+        $isNegative = (strpos($operand, '-') === 0);
+        $operand    = ltrim($operand, '+-0');
 
         if (empty($operand)) {
             return $nb;
@@ -225,8 +225,8 @@ class Bcmath implements AdapterInterface
 
         $bytes = '';
         while (bccomp($operand, '0', 0) > 0) {
-            $temp = bcmod($operand, '16777216');
-            $bytes = chr($temp >> 16) . chr($temp >> 8) . chr($temp) . $bytes;
+            $temp    = bcmod($operand, '16777216');
+            $bytes   = chr($temp >> 16) . chr($temp >> 8) . chr($temp) . $bytes;
             $operand = bcdiv($operand, '16777216');
         }
         $bytes = ltrim($bytes, $nb);
@@ -245,7 +245,7 @@ class Bcmath implements AdapterInterface
      * Convert big integer into it's binary number representation
      *
      * @param  string $bytes
-     * @param  bool $twoc whether binary number is in twos' complement form
+     * @param  bool   $twoc whether binary number is in twos' complement form
      * @return string
      */
     public function binToInt($bytes, $twoc = false)
@@ -263,9 +263,9 @@ class Bcmath implements AdapterInterface
         for ($i = 0; $i < $len; $i += 4) {
             $result = bcmul($result, '4294967296'); // 2**32
             $result = bcadd($result, 0x1000000 * ord($bytes[$i]) +
-                ((ord($bytes[$i + 1]) << 16) |
-                    (ord($bytes[$i + 2]) << 8) |
-                    ord($bytes[$i + 3])));
+                    ((ord($bytes[$i + 1]) << 16) |
+                     (ord($bytes[$i + 2]) << 8) |
+                      ord($bytes[$i + 3])));
         }
 
         if ($isNegative) {
@@ -279,8 +279,8 @@ class Bcmath implements AdapterInterface
      * Base conversion. Bases 2..62 are supported
      *
      * @param  string $operand
-     * @param  int $fromBase
-     * @param  int $toBase
+     * @param  int    $fromBase
+     * @param  int    $toBase
      * @return string
      * @throws Exception\InvalidArgumentException
      */
@@ -301,7 +301,7 @@ class Bcmath implements AdapterInterface
             );
         }
 
-        $sign = (strpos($operand, '-') === 0) ? '-' : '';
+        $sign    = (strpos($operand, '-') === 0) ? '-' : '';
         $operand = ltrim($operand, '-+');
 
         $chars = self::BASE62_ALPHABET;
@@ -311,7 +311,7 @@ class Bcmath implements AdapterInterface
             $decimal = $operand;
         } else {
             $decimal = '0';
-            for ($i = 0, $len = strlen($operand); $i < $len; $i++) {
+            for ($i = 0, $len  = strlen($operand); $i < $len; $i++) {
                 $decimal = bcmul($decimal, $fromBase);
                 $decimal = bcadd($decimal, strpos($chars, $operand[$i]));
             }
@@ -325,8 +325,8 @@ class Bcmath implements AdapterInterface
         $result = '';
         do {
             $remainder = bcmod($decimal, $toBase);
-            $decimal = bcdiv($decimal, $toBase);
-            $result = $chars[$remainder] . $result;
+            $decimal   = bcdiv($decimal, $toBase);
+            $result    = $chars[$remainder] . $result;
         } while (bccomp($decimal, '0'));
 
         return $sign . $result;

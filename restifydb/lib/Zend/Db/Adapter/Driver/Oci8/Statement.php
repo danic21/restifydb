@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -16,7 +16,6 @@ use Zend\Db\Adapter\Profiler;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
-
     /**
      * @var resource
      */
@@ -193,7 +192,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\RuntimeException('This statement has already been prepared');
         }
 
-        $sql = ($sql) ? : $this->sql;
+        $sql = ($sql) ?: $this->sql;
 
         // get oci8 statement resource
         $this->resource = oci_parse($this->oci8, $sql);
@@ -214,7 +213,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Execute
      *
-     * @param  ParameterContainer $parameters
+     * @param null|array|ParameterContainer $parameters
      * @return mixed
      */
     public function execute($parameters = null)
@@ -285,7 +284,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
                     case ParameterContainer::TYPE_INTEGER:
                         $type = SQLT_INT;
                         if (is_string($value)) {
-                            $value = (int)$value;
+                            $value = (int) $value;
                         }
                         break;
                     case ParameterContainer::TYPE_BINARY:
@@ -306,8 +305,12 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
                 $type = SQLT_CHR;
             }
 
-            oci_bind_by_name($this->resource, $name, $value, -1, $type);
+            $maxLength = -1;
+            if ($this->parameterContainer->offsetHasMaxLength($name)) {
+                $maxLength = $this->parameterContainer->offsetGetMaxLength($name);
+            }
+
+            oci_bind_by_name($this->resource, $name, $value, $maxLength, $type);
         }
     }
-
 }

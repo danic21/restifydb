@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -25,7 +25,7 @@ class Gmp implements AdapterInterface
      */
     public function init($operand, $base = null)
     {
-        $sign = (strpos($operand, '-') === 0) ? '-' : '';
+        $sign    = (strpos($operand, '-') === 0) ? '-' : '';
         $operand = ltrim($operand, '-+');
 
         if (null === $base) {
@@ -45,8 +45,7 @@ class Gmp implements AdapterInterface
             }
         }
 
-        set_error_handler(function () { /* Do nothing */
-        }, \E_WARNING);
+        set_error_handler(function () { /* Do nothing */}, \E_WARNING);
         $res = gmp_init($sign . $operand, $base);
         restore_error_handler();
         if ($res === false) {
@@ -198,14 +197,14 @@ class Gmp implements AdapterInterface
      * Convert big integer into it's binary number representation
      *
      * @param  string $int
-     * @param  bool $twoc return in twos' complement form
+     * @param  bool $twoc  return in twos' complement form
      * @return string
      */
     public function intToBin($int, $twoc = false)
     {
-        $nb = chr(0);
-        $isNegative = (strpos($int, '-') === 0) ? true : false;
-        $int = ltrim($int, '+-0');
+        $nb         = chr(0);
+        $isNegative = (strpos($int, '-') === 0);
+        $int        = ltrim($int, '+-0');
 
         if (empty($int)) {
             return $nb;
@@ -215,7 +214,7 @@ class Gmp implements AdapterInterface
             $int = gmp_sub($int, '1');
         }
 
-        $hex = gmp_strval($int, 16);
+        $hex  = gmp_strval($int, 16);
         if (strlen($hex) & 1) {
             $hex = '0' . $hex;
         }
@@ -237,7 +236,7 @@ class Gmp implements AdapterInterface
      * Convert binary number into big integer
      *
      * @param  string $bytes
-     * @param  bool $twoc whether binary number is in twos' complement form
+     * @param  bool $twoc  whether binary number is in twos' complement form
      * @return string
      */
     public function binToInt($bytes, $twoc = false)
@@ -247,7 +246,7 @@ class Gmp implements AdapterInterface
         $sign = '';
         if ($isNegative) {
             $bytes = ~$bytes;
-            $sign = '-';
+            $sign  = '-';
         }
 
         $result = gmp_init($sign . bin2hex($bytes), 16);
@@ -263,8 +262,8 @@ class Gmp implements AdapterInterface
      * Base conversion. Bases 2..62 are supported
      *
      * @param  string $operand
-     * @param  int $fromBase
-     * @param  int $toBase
+     * @param  int    $fromBase
+     * @param  int    $toBase
      * @return string
      * @throws Exception\InvalidArgumentException
      */
@@ -289,7 +288,7 @@ class Gmp implements AdapterInterface
             return gmp_strval(gmp_init($operand, $fromBase), $toBase);
         }
 
-        $sign = (strpos($operand, '-') === 0) ? '-' : '';
+        $sign    = (strpos($operand, '-') === 0) ? '-' : '';
         $operand = ltrim($operand, '-+');
 
         $chars = self::BASE62_ALPHABET;
@@ -313,7 +312,7 @@ class Gmp implements AdapterInterface
         $result = '';
         do {
             list($decimal, $remainder) = gmp_div_qr($decimal, $toBase);
-            $pos = gmp_strval($remainder);
+            $pos    = gmp_strval($remainder);
             $result = $chars[$pos] . $result;
         } while (gmp_cmp($decimal, '0'));
 

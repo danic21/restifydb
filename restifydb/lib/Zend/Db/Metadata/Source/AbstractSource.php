@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -43,7 +43,7 @@ abstract class AbstractSource implements MetadataInterface
     public function __construct(Adapter $adapter)
     {
         $this->adapter = $adapter;
-        $this->defaultSchema = ($adapter->getCurrentSchema()) ? : self::DEFAULT_SCHEMA;
+        $this->defaultSchema = ($adapter->getCurrentSchema()) ?: self::DEFAULT_SCHEMA;
     }
 
     /**
@@ -61,7 +61,7 @@ abstract class AbstractSource implements MetadataInterface
      * Get table names
      *
      * @param  string $schema
-     * @param  bool $includeViews
+     * @param  bool   $includeViews
      * @return string[]
      */
     public function getTableNames($schema = null, $includeViews = false)
@@ -83,14 +83,13 @@ abstract class AbstractSource implements MetadataInterface
             }
         }
         return $tableNames;
-
     }
 
     /**
      * Get tables
      *
      * @param  string $schema
-     * @param  bool $includeViews
+     * @param  bool   $includeViews
      * @return Object\TableObject[]
      */
     public function getTables($schema = null, $includeViews = false)
@@ -348,16 +347,16 @@ abstract class AbstractSource implements MetadataInterface
         $constraint = new Object\ConstraintObject($constraintName, $table, $schema);
 
         foreach (array(
-                     'constraint_type' => 'setType',
-                     'match_option' => 'setMatchOption',
-                     'update_rule' => 'setUpdateRule',
-                     'delete_rule' => 'setDeleteRule',
-                     'columns' => 'setColumns',
-                     'referenced_table_schema' => 'setReferencedTableSchema',
-                     'referenced_table_name' => 'setReferencedTableName',
-                     'referenced_columns' => 'setReferencedColumns',
-                     'check_clause' => 'setCheckClause',
-                 ) as $key => $setMethod) {
+            'constraint_type'         => 'setType',
+            'match_option'            => 'setMatchOption',
+            'update_rule'             => 'setUpdateRule',
+            'delete_rule'             => 'setDeleteRule',
+            'columns'                 => 'setColumns',
+            'referenced_table_schema' => 'setReferencedTableSchema',
+            'referenced_table_name'   => 'setReferencedTableName',
+            'referenced_columns'      => 'setReferencedColumns',
+            'check_clause'            => 'setCheckClause',
+        ) as $key => $setMethod) {
             if (isset($info[$key])) {
                 $constraint->{$setMethod}($info[$key]);
             }
@@ -497,12 +496,12 @@ abstract class AbstractSource implements MetadataInterface
      */
     protected function prepareDataHierarchy($type)
     {
-        $data = & $this->data;
+        $data = &$this->data;
         foreach (func_get_args() as $key) {
             if (!isset($data[$key])) {
                 $data[$key] = array();
             }
-            $data = & $data[$key];
+            $data = &$data[$key];
         }
     }
 

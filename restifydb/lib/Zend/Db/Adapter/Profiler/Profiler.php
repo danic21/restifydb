@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -60,7 +60,7 @@ class Profiler implements ProfilerInterface
         if (!isset($this->profiles[$this->currentIndex])) {
             throw new Exception\RuntimeException('A profile must be started before ' . __FUNCTION__ . ' can be called.');
         }
-        $current = & $this->profiles[$this->currentIndex];
+        $current = &$this->profiles[$this->currentIndex];
         $current['end'] = microtime(true);
         $current['elapse'] = $current['end'] - $current['start'];
         $this->currentIndex++;

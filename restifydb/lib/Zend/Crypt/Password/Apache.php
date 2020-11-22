@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -11,6 +11,7 @@ namespace Zend\Crypt\Password;
 
 use Traversable;
 use Zend\Math\Rand;
+use Zend\Crypt\Utils;
 
 /**
  * Apache password authentication
@@ -19,7 +20,7 @@ use Zend\Math\Rand;
  */
 class Apache implements PasswordInterface
 {
-    const BASE64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    const BASE64  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
     const ALPHA64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
     /**
@@ -108,7 +109,7 @@ class Apache implements PasswordInterface
                         'You must specify UserName and AuthName (realm) to generate the digest'
                     );
                 }
-                $hash = md5($this->userName . ':' . $this->authName . ':' . $password);
+                $hash = md5($this->userName . ':' . $this->authName . ':' .$password);
                 break;
         }
 
@@ -118,16 +119,17 @@ class Apache implements PasswordInterface
     /**
      * Verify if a password is correct against a hash value
      *
-     * @param  string $password
-     * @param  string $hash
+     * @param  string  $password
+     * @param  string  $hash
      * @return bool
      */
     public function verify($password, $hash)
     {
         if (substr($hash, 0, 5) === '{SHA}') {
             $hash2 = '{SHA}' . base64_encode(sha1($password, true));
-            return ($hash === $hash2);
+            return Utils::compareStrings($hash, $hash2);
         }
+
         if (substr($hash, 0, 6) === '$apr1$') {
             $token = explode('$', $hash);
             if (empty($token[2])) {
@@ -136,18 +138,22 @@ class Apache implements PasswordInterface
                 );
             }
             $hash2 = $this->apr1Md5($password, $token[2]);
-            return ($hash === $hash2);
+            return Utils::compareStrings($hash, $hash2);
         }
-        if (strlen($hash) > 13) { // digest
+
+        $bcryptPattern = '/\$2[ay]?\$[0-9]{2}\$[' . addcslashes(static::BASE64, '+/') . '\.]{53}/';
+
+        if (strlen($hash) > 13 && ! preg_match($bcryptPattern, $hash)) { // digest
             if (empty($this->userName) || empty($this->authName)) {
                 throw new Exception\RuntimeException(
                     'You must specify UserName and AuthName (realm) to verify the digest'
                 );
             }
-            $hash2 = md5($this->userName . ':' . $this->authName . ':' . $password);
-            return ($hash === $hash2);
+            $hash2 = md5($this->userName . ':' . $this->authName . ':' .$password);
+            return Utils::compareStrings($hash, $hash2);
         }
-        return (crypt($password, $hash) === $hash);
+
+        return Utils::compareStrings($hash, crypt($password, $hash));
     }
 
     /**
@@ -242,7 +248,7 @@ class Apache implements PasswordInterface
     /**
      * APR1 MD5 algorithm
      *
-     * @param  string $password
+     * @param  string      $password
      * @param  null|string $salt
      * @return string
      */
@@ -264,9 +270,9 @@ class Apache implements PasswordInterface
                 }
             }
         }
-        $len = strlen($password);
+        $len  = strlen($password);
         $text = $password . '$apr1$' . $salt;
-        $bin = pack("H32", md5($password . $salt . $password));
+        $bin  = pack("H32", md5($password . $salt . $password));
         for ($i = $len; $i > 0; $i -= 16) {
             $text .= substr($bin, 0, min(16, $i));
         }

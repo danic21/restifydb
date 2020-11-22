@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -26,7 +26,7 @@ class DiffieHellman
      */
     const FORMAT_BINARY = 'binary';
     const FORMAT_NUMBER = 'number';
-    const FORMAT_BTWOC = 'btwoc';
+    const FORMAT_BTWOC  = 'btwoc';
 
     /**
      * Static flag to select whether to use PHP5.3's openssl extension
@@ -116,7 +116,7 @@ class DiffieHellman
      */
     public static function useOpensslExtension($flag = true)
     {
-        static::$useOpenssl = (bool)$flag;
+        static::$useOpenssl = (bool) $flag;
     }
 
     /**
@@ -142,7 +142,7 @@ class DiffieHellman
                 $opensslKeyResource = openssl_pkey_new(array('dh' => $details));
             } else {
                 $opensslKeyResource = openssl_pkey_new(array(
-                    'dh' => $details,
+                    'dh'               => $details,
                     'private_key_bits' => self::DEFAULT_KEY_SIZE,
                     'private_key_type' => OPENSSL_KEYTYPE_DH
                 ));
@@ -183,7 +183,7 @@ class DiffieHellman
         if (!preg_match('/^\d+$/', $number)) {
             throw new Exception\InvalidArgumentException('Invalid parameter; not a positive natural number');
         }
-        $this->publicKey = (string)$number;
+        $this->publicKey = (string) $number;
 
         return $this;
     }
@@ -228,8 +228,7 @@ class DiffieHellman
         $publicKey,
         $publicKeyFormat = self::FORMAT_NUMBER,
         $secretKeyFormat = self::FORMAT_NUMBER
-    )
-    {
+    ) {
         if (function_exists('openssl_dh_compute_key') && static::$useOpenssl !== false) {
             $publicKey = $this->convert($publicKey, $publicKeyFormat, self::FORMAT_BINARY);
             $secretKey = openssl_dh_compute_key($publicKey, $this->opensslKeyResource);
@@ -285,7 +284,7 @@ class DiffieHellman
                 'should be a large natural number prime'
             );
         }
-        $this->prime = (string)$number;
+        $this->prime = (string) $number;
 
         return $this;
     }
@@ -320,7 +319,7 @@ class DiffieHellman
                 'Invalid parameter; not a positive natural number greater than 1'
             );
         }
-        $this->generator = (string)$number;
+        $this->generator = (string) $number;
 
         return $this;
     }
@@ -355,7 +354,7 @@ class DiffieHellman
         if (!preg_match('/^\d+$/', $number)) {
             throw new Exception\InvalidArgumentException('Invalid parameter; not a positive natural number');
         }
-        $this->privateKey = (string)$number;
+        $this->privateKey = (string) $number;
 
         return $this;
     }
@@ -415,14 +414,11 @@ class DiffieHellman
         switch ($outputFormat) {
             case self::FORMAT_BINARY:
                 return $this->math->intToBin($number);
-                break;
             case self::FORMAT_BTWOC:
                 return $this->math->intToBin($number, true);
-                break;
             case self::FORMAT_NUMBER:
             default:
                 return $number;
-                break;
         }
     }
 

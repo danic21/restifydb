@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -16,7 +16,6 @@ use Zend\Db\Adapter\Profiler;
 
 class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
 {
-
     /**
      * @var \mysqli
      */
@@ -66,7 +65,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
      */
     public function __construct($bufferResults = false)
     {
-        $this->bufferResults = (bool)$bufferResults;
+        $this->bufferResults = (bool) $bufferResults;
     }
 
     /**
@@ -202,7 +201,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             throw new Exception\RuntimeException('This statement has already been prepared');
         }
 
-        $sql = ($sql) ? : $this->sql;
+        $sql = ($sql) ?: $this->sql;
 
         $this->resource = $this->mysqli->prepare($sql);
         if (!$this->resource instanceof \mysqli_stmt) {
@@ -220,7 +219,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
     /**
      * Execute
      *
-     * @param  ParameterContainer|array $parameters
+     * @param null|array|ParameterContainer $parameters
      * @throws Exception\RuntimeException
      * @return mixed
      */
@@ -305,7 +304,7 @@ class Statement implements StatementInterface, Profiler\ProfilerAwareInterface
             } else {
                 $type .= 's';
             }
-            $args[] = & $value;
+            $args[] = &$value;
         }
 
         if ($args) {

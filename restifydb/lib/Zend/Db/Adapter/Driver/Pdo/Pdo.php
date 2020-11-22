@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -56,8 +56,8 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
         }
 
         $this->registerConnection($connection);
-        $this->registerStatementPrototype(($statementPrototype) ? : new Statement());
-        $this->registerResultPrototype(($resultPrototype) ? : new Result());
+        $this->registerStatementPrototype(($statementPrototype) ?: new Statement());
+        $this->registerResultPrototype(($resultPrototype) ?: new Result());
         if (is_array($features)) {
             foreach ($features as $name => $feature) {
                 $this->addFeature($name, $feature);
@@ -266,16 +266,14 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
         // special feature, sqlite PDO counter
         if ($this->connection->getDriverName() == 'sqlite'
             && ($sqliteRowCounter = $this->getFeature('SqliteRowCounter'))
-            && $resource->columnCount() > 0
-        ) {
+            && $resource->columnCount() > 0) {
             $rowCount = $sqliteRowCounter->getRowCountClosure($context);
         }
 
         // special feature, oracle PDO counter
         if ($this->connection->getDriverName() == 'oci'
             && ($oracleRowCounter = $this->getFeature('OracleRowCounter'))
-            && $resource->columnCount() > 0
-        ) {
+            && $resource->columnCount() > 0) {
             $rowCount = $oracleRowCounter->getRowCountClosure($context);
         }
 
@@ -299,7 +297,7 @@ class Pdo implements DriverInterface, DriverFeatureInterface, Profiler\ProfilerA
      */
     public function formatParameterName($name, $type = null)
     {
-        if ($type == null && !is_numeric($name) || $type == self::PARAMETERIZATION_NAMED) {
+        if ($type === null && !is_numeric($name) || $type == self::PARAMETERIZATION_NAMED) {
             return ':' . $name;
         }
 

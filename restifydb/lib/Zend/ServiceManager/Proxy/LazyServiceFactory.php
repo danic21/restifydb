@@ -3,14 +3,13 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\ServiceManager\Proxy;
 
 use ProxyManager\Factory\LazyLoadingValueHolderFactory;
-
 use ProxyManager\Proxy\LazyLoadingInterface;
 use Zend\ServiceManager\DelegatorFactoryInterface;
 use Zend\ServiceManager\Exception;
@@ -36,13 +35,13 @@ class LazyServiceFactory implements DelegatorFactoryInterface
 
     /**
      * @param LazyLoadingValueHolderFactory $proxyFactory
-     * @param string[] $servicesMap a map of service names to class names of their
+     * @param string[]                      $servicesMap  a map of service names to class names of their
      *                                                    respective classes
      */
     public function __construct(LazyLoadingValueHolderFactory $proxyFactory, array $servicesMap)
     {
         $this->proxyFactory = $proxyFactory;
-        $this->servicesMap = $servicesMap;
+        $this->servicesMap  = $servicesMap;
     }
 
     /**

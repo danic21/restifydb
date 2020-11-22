@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -36,11 +36,11 @@ class DiInstanceManagerProxy extends DiInstanceManager
         $this->serviceLocator = $serviceLocator;
 
         // localize state
-        $this->aliases = & $diInstanceManager->aliases;
-        $this->sharedInstances = & $diInstanceManager->sharedInstances;
-        $this->sharedInstancesWithParams = & $diInstanceManager->sharedInstancesWithParams;
-        $this->configurations = & $diInstanceManager->configurations;
-        $this->typePreferences = & $diInstanceManager->typePreferences;
+        $this->aliases = &$diInstanceManager->aliases;
+        $this->sharedInstances = &$diInstanceManager->sharedInstances;
+        $this->sharedInstancesWithParams = &$diInstanceManager->sharedInstancesWithParams;
+        $this->configurations = &$diInstanceManager->configurations;
+        $this->typePreferences = &$diInstanceManager->typePreferences;
     }
 
     /**

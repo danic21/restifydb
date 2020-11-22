@@ -3,13 +3,15 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Stdlib;
 
 use Traversable;
+use Zend\Stdlib\ArrayUtils\MergeRemoveKey;
+use Zend\Stdlib\ArrayUtils\MergeReplaceKeyInterface;
 
 /**
  * Utility class for testing and manipulation of PHP arrays.
@@ -19,10 +21,20 @@ use Traversable;
 abstract class ArrayUtils
 {
     /**
+     * Compatibility Flag for ArrayUtils::filter
+     */
+    const ARRAY_FILTER_USE_BOTH = 1;
+
+    /**
+     * Compatibility Flag for ArrayUtils::filter
+     */
+    const ARRAY_FILTER_USE_KEY  = 2;
+
+    /**
      * Test whether an array contains one or more string keys
      *
      * @param  mixed $value
-     * @param  bool $allowEmpty Should an empty array() return true
+     * @param  bool  $allowEmpty    Should an empty array() return true
      * @return bool
      */
     public static function hasStringKeys($value, $allowEmpty = false)
@@ -42,7 +54,7 @@ abstract class ArrayUtils
      * Test whether an array contains one or more integer keys
      *
      * @param  mixed $value
-     * @param  bool $allowEmpty Should an empty array() return true
+     * @param  bool  $allowEmpty    Should an empty array() return true
      * @return bool
      */
     public static function hasIntegerKeys($value, $allowEmpty = false)
@@ -69,7 +81,7 @@ abstract class ArrayUtils
      * - a string with float:  '4000.99999', '-10.10'
      *
      * @param  mixed $value
-     * @param  bool $allowEmpty Should an empty array() return true
+     * @param  bool  $allowEmpty    Should an empty array() return true
      * @return bool
      */
     public static function hasNumericKeys($value, $allowEmpty = false)
@@ -102,7 +114,7 @@ abstract class ArrayUtils
      * </code>
      *
      * @param  mixed $value
-     * @param  bool $allowEmpty Is an empty list a valid list?
+     * @param  bool  $allowEmpty    Is an empty list a valid list?
      * @return bool
      */
     public static function isList($value, $allowEmpty = false)
@@ -144,7 +156,7 @@ abstract class ArrayUtils
      * </code>
      *
      * @param  mixed $value
-     * @param  bool $allowEmpty Is an empty array() a valid hash table?
+     * @param  bool  $allowEmpty    Is an empty array() a valid hash table?
      * @return bool
      */
     public static function isHashTable($value, $allowEmpty = false)
@@ -177,12 +189,12 @@ abstract class ArrayUtils
     {
         if (!$strict) {
             if (is_int($needle) || is_float($needle)) {
-                $needle = (string)$needle;
+                $needle = (string) $needle;
             }
             if (is_string($needle)) {
                 foreach ($haystack as &$h) {
                     if (is_int($h) || is_float($h)) {
-                        $h = (string)$h;
+                        $h = (string) $h;
                     }
                 }
             }
@@ -196,8 +208,8 @@ abstract class ArrayUtils
      * Converts an iterator to an array. The $recursive flag, on by default,
      * hints whether or not you want to do so recursively.
      *
-     * @param  array|Traversable $iterator The array or Traversable object to convert
-     * @param  bool $recursive Recursively check all nested structures
+     * @param  array|Traversable  $iterator     The array or Traversable object to convert
+     * @param  bool               $recursive    Recursively check all nested structures
      * @throws Exception\InvalidArgumentException if $iterator is not an array or a Traversable object
      * @return array
      */
@@ -251,14 +263,18 @@ abstract class ArrayUtils
      *
      * @param  array $a
      * @param  array $b
-     * @param  bool $preserveNumericKeys
+     * @param  bool  $preserveNumericKeys
      * @return array
      */
     public static function merge(array $a, array $b, $preserveNumericKeys = false)
     {
         foreach ($b as $key => $value) {
-            if (array_key_exists($key, $a)) {
-                if (is_int($key) && !$preserveNumericKeys) {
+            if ($value instanceof MergeReplaceKeyInterface) {
+                $a[$key] = $value->getData();
+            } elseif (isset($a[$key]) || array_key_exists($key, $a)) {
+                if ($value instanceof MergeRemoveKey) {
+                    unset($a[$key]);
+                } elseif (!$preserveNumericKeys && is_int($key)) {
                     $a[] = $value;
                 } elseif (is_array($value) && is_array($a[$key])) {
                     $a[$key] = static::merge($a[$key], $value, $preserveNumericKeys);
@@ -266,10 +282,54 @@ abstract class ArrayUtils
                     $a[$key] = $value;
                 }
             } else {
-                $a[$key] = $value;
+                if (!$value instanceof MergeRemoveKey) {
+                    $a[$key] = $value;
+                }
             }
         }
 
         return $a;
+    }
+
+    /**
+     * Compatibility Method for array_filter on <5.6 systems
+     *
+     * @param array $data
+     * @param callable $callback
+     * @param null|int $flag
+     * @return array
+     */
+    public static function filter(array $data, $callback, $flag = null)
+    {
+        if (! is_callable($callback)) {
+            throw new Exception\InvalidArgumentException(sprintf(
+                'Second parameter of %s must be callable',
+                __METHOD__
+            ));
+        }
+
+        if (version_compare(PHP_VERSION, '5.6.0') >= 0) {
+            return array_filter($data, $callback, $flag);
+        }
+
+        $output = array();
+        foreach ($data as $key => $value) {
+            $params = array($value);
+
+            if ($flag === static::ARRAY_FILTER_USE_BOTH) {
+                $params[] = $key;
+            }
+
+            if ($flag === static::ARRAY_FILTER_USE_KEY) {
+                $params = array($key);
+            }
+
+            $response = call_user_func_array($callback, $params);
+            if ($response) {
+                $output[$key] = $value;
+            }
+        }
+
+        return $output;
     }
 }

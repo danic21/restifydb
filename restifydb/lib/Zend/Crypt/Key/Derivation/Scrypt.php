@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -57,15 +57,15 @@ abstract class Scrypt
         return Pbkdf2::calc('sha256', $password, $s, 1, $length);
     }
 
-    /**
-     * scryptROMix
-     *
-     * @param  string $b
-     * @param  int $n
-     * @param  int $r
-     * @return string
-     * @see    https://tools.ietf.org/html/draft-josefsson-scrypt-kdf-01#section-4
-     */
+   /**
+    * scryptROMix
+    *
+    * @param  string $b
+    * @param  int $n
+    * @param  int $r
+    * @return string
+    * @see    https://tools.ietf.org/html/draft-josefsson-scrypt-kdf-01#section-4
+    */
     protected static function scryptROMix($b, $n, $r)
     {
         $x = $b;
@@ -76,7 +76,7 @@ abstract class Scrypt
         }
         for ($i = 0; $i < $n; $i++) {
             $j = self::integerify($x) % $n;
-            $t = $x ^ $v[$j];
+            $t = $x ^  $v[$j];
             $x = self::scryptBlockMix($t, $r);
         }
         return $x;
@@ -92,10 +92,10 @@ abstract class Scrypt
      */
     protected static function scryptBlockMix($b, $r)
     {
-        $x = substr($b, -64);
+        $x    = substr($b, -64);
         $even = '';
-        $odd = '';
-        $len = 2 * $r;
+        $odd  = '';
+        $len  = 2 * $r;
 
         for ($i = 0; $i < $len; $i++) {
             if (PHP_INT_SIZE === 4) {
@@ -129,69 +129,69 @@ abstract class Scrypt
 
         $x = $b32;
         for ($i = 0; $i < 8; $i += 2) {
-            $a = ($x[0] + $x[12]);
-            $x[4] ^= ($a << 7) | ($a >> 25) & 0x7f;
-            $a = ($x[4] + $x[0]);
-            $x[8] ^= ($a << 9) | ($a >> 23) & 0x1ff;
-            $a = ($x[8] + $x[4]);
+            $a      = ($x[ 0] + $x[12]);
+            $x[ 4] ^= ($a << 7) | ($a >> 25) & 0x7f;
+            $a      = ($x[ 4] + $x[ 0]);
+            $x[ 8] ^= ($a << 9) | ($a >> 23) & 0x1ff;
+            $a      = ($x[ 8] + $x[ 4]);
             $x[12] ^= ($a << 13) | ($a >> 19) & 0x1fff;
-            $a = ($x[12] + $x[8]);
-            $x[0] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
-            $a = ($x[5] + $x[1]);
-            $x[9] ^= ($a << 7) | ($a >> 25) & 0x7f;
-            $a = ($x[9] + $x[5]);
+            $a      = ($x[12] + $x[ 8]);
+            $x[ 0] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
+            $a      = ($x[ 5] + $x[ 1]);
+            $x[ 9] ^= ($a << 7) | ($a >> 25) & 0x7f;
+            $a      = ($x[ 9] + $x[ 5]);
             $x[13] ^= ($a << 9) | ($a >> 23) & 0x1ff;
-            $a = ($x[13] + $x[9]);
-            $x[1] ^= ($a << 13) | ($a >> 19) & 0x1fff;
-            $a = ($x[1] + $x[13]);
-            $x[5] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
-            $a = ($x[10] + $x[6]);
+            $a      = ($x[13] + $x[ 9]);
+            $x[ 1] ^= ($a << 13) | ($a >> 19) & 0x1fff;
+            $a      = ($x[ 1] + $x[13]);
+            $x[ 5] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
+            $a      = ($x[10] + $x[ 6]);
             $x[14] ^= ($a << 7) | ($a >> 25) & 0x7f;
-            $a = ($x[14] + $x[10]);
-            $x[2] ^= ($a << 9) | ($a >> 23) & 0x1ff;
-            $a = ($x[2] + $x[14]);
-            $x[6] ^= ($a << 13) | ($a >> 19) & 0x1fff;
-            $a = ($x[6] + $x[2]);
+            $a      = ($x[14] + $x[10]);
+            $x[ 2] ^= ($a << 9) | ($a >> 23) & 0x1ff;
+            $a      = ($x[ 2] + $x[14]);
+            $x[ 6] ^= ($a << 13) | ($a >> 19) & 0x1fff;
+            $a      = ($x[ 6] + $x[ 2]);
             $x[10] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
-            $a = ($x[15] + $x[11]);
-            $x[3] ^= ($a << 7) | ($a >> 25) & 0x7f;
-            $a = ($x[3] + $x[15]);
-            $x[7] ^= ($a << 9) | ($a >> 23) & 0x1ff;
-            $a = ($x[7] + $x[3]);
+            $a      = ($x[15] + $x[11]);
+            $x[ 3] ^= ($a << 7) | ($a >> 25) & 0x7f;
+            $a      = ($x[ 3] + $x[15]);
+            $x[ 7] ^= ($a << 9) | ($a >> 23) & 0x1ff;
+            $a      = ($x[ 7] + $x[ 3]);
             $x[11] ^= ($a << 13) | ($a >> 19) & 0x1fff;
-            $a = ($x[11] + $x[7]);
+            $a      = ($x[11] + $x[ 7]);
             $x[15] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
-            $a = ($x[0] + $x[3]);
-            $x[1] ^= ($a << 7) | ($a >> 25) & 0x7f;
-            $a = ($x[1] + $x[0]);
-            $x[2] ^= ($a << 9) | ($a >> 23) & 0x1ff;
-            $a = ($x[2] + $x[1]);
-            $x[3] ^= ($a << 13) | ($a >> 19) & 0x1fff;
-            $a = ($x[3] + $x[2]);
-            $x[0] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
-            $a = ($x[5] + $x[4]);
-            $x[6] ^= ($a << 7) | ($a >> 25) & 0x7f;
-            $a = ($x[6] + $x[5]);
-            $x[7] ^= ($a << 9) | ($a >> 23) & 0x1ff;
-            $a = ($x[7] + $x[6]);
-            $x[4] ^= ($a << 13) | ($a >> 19) & 0x1fff;
-            $a = ($x[4] + $x[7]);
-            $x[5] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
-            $a = ($x[10] + $x[9]);
+            $a      = ($x[ 0] + $x[ 3]);
+            $x[ 1] ^= ($a << 7) | ($a >> 25) & 0x7f;
+            $a      = ($x[ 1] + $x[ 0]);
+            $x[ 2] ^= ($a << 9) | ($a >> 23) & 0x1ff;
+            $a      = ($x[ 2] + $x[ 1]);
+            $x[ 3] ^= ($a << 13) | ($a >> 19) & 0x1fff;
+            $a      = ($x[ 3] + $x[ 2]);
+            $x[ 0] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
+            $a      = ($x[ 5] + $x[ 4]);
+            $x[ 6] ^= ($a << 7) | ($a >> 25) & 0x7f;
+            $a      = ($x[ 6] + $x[ 5]);
+            $x[ 7] ^= ($a << 9) | ($a >> 23) & 0x1ff;
+            $a      = ($x[ 7] + $x[ 6]);
+            $x[ 4] ^= ($a << 13) | ($a >> 19) & 0x1fff;
+            $a      = ($x[ 4] + $x[ 7]);
+            $x[ 5] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
+            $a      = ($x[10] + $x[ 9]);
             $x[11] ^= ($a << 7) | ($a >> 25) & 0x7f;
-            $a = ($x[11] + $x[10]);
-            $x[8] ^= ($a << 9) | ($a >> 23) & 0x1ff;
-            $a = ($x[8] + $x[11]);
-            $x[9] ^= ($a << 13) | ($a >> 19) & 0x1fff;
-            $a = ($x[9] + $x[8]);
+            $a      = ($x[11] + $x[10]);
+            $x[ 8] ^= ($a << 9) | ($a >> 23) & 0x1ff;
+            $a      = ($x[ 8] + $x[11]);
+            $x[ 9] ^= ($a << 13) | ($a >> 19) & 0x1fff;
+            $a      = ($x[ 9] + $x[ 8]);
             $x[10] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
-            $a = ($x[15] + $x[14]);
+            $a      = ($x[15] + $x[14]);
             $x[12] ^= ($a << 7) | ($a >> 25) & 0x7f;
-            $a = ($x[12] + $x[15]);
+            $a      = ($x[12] + $x[15]);
             $x[13] ^= ($a << 9) | ($a >> 23) & 0x1ff;
-            $a = ($x[13] + $x[12]);
+            $a      = ($x[13] + $x[12]);
             $x[14] ^= ($a << 13) | ($a >> 19) & 0x1fff;
-            $a = ($x[14] + $x[13]);
+            $a      = ($x[14] + $x[13]);
             $x[15] ^= ($a << 18) | ($a >> 14) & 0x3ffff;
         }
         for ($i = 0; $i < 16; $i++) {
@@ -222,69 +222,69 @@ abstract class Scrypt
 
         $x = $b32;
         for ($i = 0; $i < 8; $i += 2) {
-            $a = ($x[0] + $x[12]) & 0xffffffff;
-            $x[4] ^= ($a << 7) | ($a >> 25);
-            $a = ($x[4] + $x[0]) & 0xffffffff;
-            $x[8] ^= ($a << 9) | ($a >> 23);
-            $a = ($x[8] + $x[4]) & 0xffffffff;
+            $a      = ($x[ 0] + $x[12]) & 0xffffffff;
+            $x[ 4] ^= ($a << 7) | ($a >> 25);
+            $a      = ($x[ 4] + $x[ 0]) & 0xffffffff;
+            $x[ 8] ^= ($a << 9) | ($a >> 23);
+            $a      = ($x[ 8] + $x[ 4]) & 0xffffffff;
             $x[12] ^= ($a << 13) | ($a >> 19);
-            $a = ($x[12] + $x[8]) & 0xffffffff;
-            $x[0] ^= ($a << 18) | ($a >> 14);
-            $a = ($x[5] + $x[1]) & 0xffffffff;
-            $x[9] ^= ($a << 7) | ($a >> 25);
-            $a = ($x[9] + $x[5]) & 0xffffffff;
+            $a      = ($x[12] + $x[ 8]) & 0xffffffff;
+            $x[ 0] ^= ($a << 18) | ($a >> 14);
+            $a      = ($x[ 5] + $x[ 1]) & 0xffffffff;
+            $x[ 9] ^= ($a << 7) | ($a >> 25);
+            $a      = ($x[ 9] + $x[ 5]) & 0xffffffff;
             $x[13] ^= ($a << 9) | ($a >> 23);
-            $a = ($x[13] + $x[9]) & 0xffffffff;
-            $x[1] ^= ($a << 13) | ($a >> 19);
-            $a = ($x[1] + $x[13]) & 0xffffffff;
-            $x[5] ^= ($a << 18) | ($a >> 14);
-            $a = ($x[10] + $x[6]) & 0xffffffff;
+            $a      = ($x[13] + $x[ 9]) & 0xffffffff;
+            $x[ 1] ^= ($a << 13) | ($a >> 19);
+            $a      = ($x[ 1] + $x[13]) & 0xffffffff;
+            $x[ 5] ^= ($a << 18) | ($a >> 14);
+            $a      = ($x[10] + $x[ 6]) & 0xffffffff;
             $x[14] ^= ($a << 7) | ($a >> 25);
-            $a = ($x[14] + $x[10]) & 0xffffffff;
-            $x[2] ^= ($a << 9) | ($a >> 23);
-            $a = ($x[2] + $x[14]) & 0xffffffff;
-            $x[6] ^= ($a << 13) | ($a >> 19);
-            $a = ($x[6] + $x[2]) & 0xffffffff;
+            $a      = ($x[14] + $x[10]) & 0xffffffff;
+            $x[ 2] ^= ($a << 9) | ($a >> 23);
+            $a      = ($x[ 2] + $x[14]) & 0xffffffff;
+            $x[ 6] ^= ($a << 13) | ($a >> 19);
+            $a      = ($x[ 6] + $x[ 2]) & 0xffffffff;
             $x[10] ^= ($a << 18) | ($a >> 14);
-            $a = ($x[15] + $x[11]) & 0xffffffff;
-            $x[3] ^= ($a << 7) | ($a >> 25);
-            $a = ($x[3] + $x[15]) & 0xffffffff;
-            $x[7] ^= ($a << 9) | ($a >> 23);
-            $a = ($x[7] + $x[3]) & 0xffffffff;
+            $a      = ($x[15] + $x[11]) & 0xffffffff;
+            $x[ 3] ^= ($a << 7) | ($a >> 25);
+            $a      = ($x[ 3] + $x[15]) & 0xffffffff;
+            $x[ 7] ^= ($a << 9) | ($a >> 23);
+            $a      = ($x[ 7] + $x[ 3]) & 0xffffffff;
             $x[11] ^= ($a << 13) | ($a >> 19);
-            $a = ($x[11] + $x[7]) & 0xffffffff;
+            $a      = ($x[11] + $x[ 7]) & 0xffffffff;
             $x[15] ^= ($a << 18) | ($a >> 14);
-            $a = ($x[0] + $x[3]) & 0xffffffff;
-            $x[1] ^= ($a << 7) | ($a >> 25);
-            $a = ($x[1] + $x[0]) & 0xffffffff;
-            $x[2] ^= ($a << 9) | ($a >> 23);
-            $a = ($x[2] + $x[1]) & 0xffffffff;
-            $x[3] ^= ($a << 13) | ($a >> 19);
-            $a = ($x[3] + $x[2]) & 0xffffffff;
-            $x[0] ^= ($a << 18) | ($a >> 14);
-            $a = ($x[5] + $x[4]) & 0xffffffff;
-            $x[6] ^= ($a << 7) | ($a >> 25);
-            $a = ($x[6] + $x[5]) & 0xffffffff;
-            $x[7] ^= ($a << 9) | ($a >> 23);
-            $a = ($x[7] + $x[6]) & 0xffffffff;
-            $x[4] ^= ($a << 13) | ($a >> 19);
-            $a = ($x[4] + $x[7]) & 0xffffffff;
-            $x[5] ^= ($a << 18) | ($a >> 14);
-            $a = ($x[10] + $x[9]) & 0xffffffff;
+            $a      = ($x[ 0] + $x[ 3]) & 0xffffffff;
+            $x[ 1] ^= ($a << 7) | ($a >> 25);
+            $a      = ($x[ 1] + $x[ 0]) & 0xffffffff;
+            $x[ 2] ^= ($a << 9) | ($a >> 23);
+            $a      = ($x[ 2] + $x[ 1]) & 0xffffffff;
+            $x[ 3] ^= ($a << 13) | ($a >> 19);
+            $a      = ($x[ 3] + $x[ 2]) & 0xffffffff;
+            $x[ 0] ^= ($a << 18) | ($a >> 14);
+            $a      = ($x[ 5] + $x[ 4]) & 0xffffffff;
+            $x[ 6] ^= ($a << 7) | ($a >> 25);
+            $a      = ($x[ 6] + $x[ 5]) & 0xffffffff;
+            $x[ 7] ^= ($a << 9) | ($a >> 23);
+            $a      = ($x[ 7] + $x[ 6]) & 0xffffffff;
+            $x[ 4] ^= ($a << 13) | ($a >> 19);
+            $a      = ($x[ 4] + $x[ 7]) & 0xffffffff;
+            $x[ 5] ^= ($a << 18) | ($a >> 14);
+            $a      = ($x[10] + $x[ 9]) & 0xffffffff;
             $x[11] ^= ($a << 7) | ($a >> 25);
-            $a = ($x[11] + $x[10]) & 0xffffffff;
-            $x[8] ^= ($a << 9) | ($a >> 23);
-            $a = ($x[8] + $x[11]) & 0xffffffff;
-            $x[9] ^= ($a << 13) | ($a >> 19);
-            $a = ($x[9] + $x[8]) & 0xffffffff;
+            $a      = ($x[11] + $x[10]) & 0xffffffff;
+            $x[ 8] ^= ($a << 9) | ($a >> 23);
+            $a      = ($x[ 8] + $x[11]) & 0xffffffff;
+            $x[ 9] ^= ($a << 13) | ($a >> 19);
+            $a      = ($x[ 9] + $x[ 8]) & 0xffffffff;
             $x[10] ^= ($a << 18) | ($a >> 14);
-            $a = ($x[15] + $x[14]) & 0xffffffff;
+            $a      = ($x[15] + $x[14]) & 0xffffffff;
             $x[12] ^= ($a << 7) | ($a >> 25);
-            $a = ($x[12] + $x[15]) & 0xffffffff;
+            $a      = ($x[12] + $x[15]) & 0xffffffff;
             $x[13] ^= ($a << 9) | ($a >> 23);
-            $a = ($x[13] + $x[12]) & 0xffffffff;
+            $a      = ($x[13] + $x[12]) & 0xffffffff;
             $x[14] ^= ($a << 13) | ($a >> 19);
-            $a = ($x[14] + $x[13]) & 0xffffffff;
+            $a      = ($x[14] + $x[13]) & 0xffffffff;
             $x[15] ^= ($a << 18) | ($a >> 14);
         }
         for ($i = 0; $i < 16; $i++) {
@@ -330,10 +330,10 @@ abstract class Scrypt
         if (PHP_VERSION_ID >= 50400) {
             return hex2bin($hex);
         }
-        $len = strlen($hex);
+        $len    = strlen($hex);
         $result = '';
-        for ($i = 0; $i < $len; $i += 2) {
-            $result .= chr(hexdec($hex[$i] . $hex[$i + 1]));
+        for ($i = 0; $i < $len; $i+=2) {
+            $result .= chr(hexdec($hex[$i] . $hex[$i+1]));
         }
         return $result;
     }

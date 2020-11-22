@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -30,7 +30,7 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
      * Check if the given character encoding is supported by this wrapper
      * and the character encoding to convert to is also supported.
      *
-     * @param  string $encoding
+     * @param  string      $encoding
      * @param  string|null $convertEncoding
      * @return bool
      */
@@ -52,8 +52,8 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
     /**
      * Set character encoding working with and convert to
      *
-     * @param string $encoding The character encoding to work with
-     * @param string|null $convertEncoding The character encoding to convert to
+     * @param string      $encoding         The character encoding to work with
+     * @param string|null $convertEncoding  The character encoding to convert to
      * @return StringWrapperInterface
      */
     public function setEncoding($encoding, $convertEncoding = null)
@@ -66,7 +66,6 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
                 'Wrapper doesn\'t support character encoding "' . $encoding . '"'
             );
         }
-
 
         if ($convertEncoding !== null) {
             $convertEncodingUpper = strtoupper($convertEncoding);
@@ -100,7 +99,7 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
      * Get the defined character encoding to convert to
      *
      * @return string|null
-     */
+    */
     public function getConvertEncoding()
     {
         return $this->convertEncoding;
@@ -109,13 +108,13 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
     /**
      * Convert a string from defined character encoding to the defined convert encoding
      *
-     * @param string $str
+     * @param string  $str
      * @param bool $reverse
      * @return string|false
      */
     public function convert($str, $reverse = false)
     {
-        $encoding = $this->getEncoding();
+        $encoding        = $this->getEncoding();
         $convertEncoding = $this->getConvertEncoding();
         if ($convertEncoding === null) {
             throw new Exception\LogicException(
@@ -128,7 +127,7 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
         }
 
         $from = $reverse ? $convertEncoding : $encoding;
-        $to = $reverse ? $encoding : $convertEncoding;
+        $to   = $reverse ? $encoding : $convertEncoding;
         throw new Exception\RuntimeException(sprintf(
             'Converting from "%s" to "%s" isn\'t supported by this string wrapper',
             $from,
@@ -139,25 +138,25 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
     /**
      * Wraps a string to a given number of characters
      *
-     * @param  string $string
+     * @param  string  $string
      * @param  int $width
-     * @param  string $break
+     * @param  string  $break
      * @param  bool $cut
      * @return string|false
      */
     public function wordWrap($string, $width = 75, $break = "\n", $cut = false)
     {
-        $string = (string)$string;
+        $string = (string) $string;
         if ($string === '') {
             return '';
         }
 
-        $break = (string)$break;
+        $break = (string) $break;
         if ($break === '') {
             throw new Exception\InvalidArgumentException('Break string cannot be empty');
         }
 
-        $width = (int)$width;
+        $width = (int) $width;
         if ($width === 0 && $cut) {
             throw new Exception\InvalidArgumentException('Cannot force cut when width is zero');
         }
@@ -167,9 +166,9 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
         }
 
         $stringWidth = $this->strlen($string);
-        $breakWidth = $this->strlen($break);
+        $breakWidth  = $this->strlen($break);
 
-        $result = '';
+        $result    = '';
         $lastStart = $lastSpace = 0;
 
         for ($current = 0; $current < $stringWidth; $current++) {
@@ -181,16 +180,16 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
             }
 
             if ($possibleBreak === $break) {
-                $result .= $this->substr($string, $lastStart, $current - $lastStart + $breakWidth);
-                $current += $breakWidth - 1;
-                $lastStart = $lastSpace = $current + 1;
+                $result    .= $this->substr($string, $lastStart, $current - $lastStart + $breakWidth);
+                $current   += $breakWidth - 1;
+                $lastStart  = $lastSpace = $current + 1;
                 continue;
             }
 
             if ($char === ' ') {
                 if ($current - $lastStart >= $width) {
-                    $result .= $this->substr($string, $lastStart, $current - $lastStart) . $break;
-                    $lastStart = $current + 1;
+                    $result    .= $this->substr($string, $lastStart, $current - $lastStart) . $break;
+                    $lastStart  = $current + 1;
                 }
 
                 $lastSpace = $current;
@@ -198,14 +197,14 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
             }
 
             if ($current - $lastStart >= $width && $cut && $lastStart >= $lastSpace) {
-                $result .= $this->substr($string, $lastStart, $current - $lastStart) . $break;
-                $lastStart = $lastSpace = $current;
+                $result    .= $this->substr($string, $lastStart, $current - $lastStart) . $break;
+                $lastStart  = $lastSpace = $current;
                 continue;
             }
 
             if ($current - $lastStart >= $width && $lastStart < $lastSpace) {
-                $result .= $this->substr($string, $lastStart, $lastSpace - $lastStart) . $break;
-                $lastStart = $lastSpace = $lastSpace + 1;
+                $result    .= $this->substr($string, $lastStart, $lastSpace - $lastStart) . $break;
+                $lastStart  = $lastSpace = $lastSpace + 1;
                 continue;
             }
         }
@@ -220,9 +219,9 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
     /**
      * Pad a string to a certain length with another string
      *
-     * @param  string $input
+     * @param  string  $input
      * @param  int $padLength
-     * @param  string $padString
+     * @param  string  $padString
      * @param  int $padType
      * @return string
      */
@@ -247,16 +246,16 @@ abstract class AbstractStringWrapper implements StringWrapperInterface
         if ($padType === STR_PAD_BOTH) {
             $repeatCountLeft = $repeatCountRight = ($repeatCount - $repeatCount % 2) / 2;
 
-            $lastStringLength = $lengthOfPadding - 2 * $repeatCountLeft * $padStringLength;
-            $lastStringLeftLength = $lastStringRightLength = floor($lastStringLength / 2);
+            $lastStringLength       = $lengthOfPadding - 2 * $repeatCountLeft * $padStringLength;
+            $lastStringLeftLength   = $lastStringRightLength = floor($lastStringLength / 2);
             $lastStringRightLength += $lastStringLength % 2;
 
-            $lastStringLeft = $this->substr($padString, 0, $lastStringLeftLength);
+            $lastStringLeft  = $this->substr($padString, 0, $lastStringLeftLength);
             $lastStringRight = $this->substr($padString, 0, $lastStringRightLength);
 
             return str_repeat($padString, $repeatCountLeft) . $lastStringLeft
-            . $input
-            . str_repeat($padString, $repeatCountRight) . $lastStringRight;
+                . $input
+                . str_repeat($padString, $repeatCountRight) . $lastStringRight;
         }
 
         $lastString = $this->substr($padString, 0, $lengthOfPadding % $padStringLength);
