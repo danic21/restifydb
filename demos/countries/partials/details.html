@@ -1,0 +1,99 @@
+<!--/**
+* restifydb - expose your databases as REST web services in minutes
+*
+* @copyright (C) 2020 Daniel CHIRITA
+* @version 1.1
+* @author Daniel CHIRITA
+* @link https://restifydb.com/
+*
+* This file is part of restifydb demos.
+*
+* @license https://restifydb.com/#license
+*
+*/-->
+
+<div ng-cloak="">
+    <h1>
+        {{ country.name.value }}
+    </h1>
+
+    <div class="clearfix"></div>
+
+    <h2>History</h2>
+
+    <p class="history">
+        {{ country.history.value }}
+    </p>
+
+    <div class="row">
+        <div class="col-sm-7">
+            <h2>Country Profile</h2>
+            <dl>
+                <dt>Flag</dt>
+                <dd>
+                    <div class="flag flag-{{ country.isocode.value }}"></div>
+                </dd>
+
+                <dt>Full name</dt>
+                <dd>{{ country.fullname.value || country.name.value }}</dd>
+
+                <dt>Region</dt>
+                <dd><a href="#/region/{{ country.regionid.outReference.values.regionid }}">{{
+                    country.regionid.outReference.values.name }}</a></dd>
+
+                <dt>Capital</dt>
+                <dd>{{ country.capital.value }}</dd>
+
+                <dt>Population</dt>
+                <dd>{{ country.population.value | number:0 }} inhabitants</dd>
+
+                <dt>Area</dt>
+                <dd>{{ country.area.value | number:0 }} squared kilometers</dd>
+
+                <dt>GDP</dt>
+                <dd>{{ country.gdp.value | currency:$:0 }}</dd>
+
+                <dt>Climate</dt>
+                <dd>{{ country.climate.value }}</dd>
+
+                <dt>Location</dt>
+                <dd>{{ country.location.value }}</dd>
+
+                <dt>ISO Code</dt>
+                <dd>{{ country.isocode.value }}</dd>
+
+                <dt>Currency</dt>
+                <dd>{{ country.currency.value }}</dd>
+
+                <dt>Full Country Profile</dt>
+                <dd><a target="_blank" href="http://countrylicious.com/{{ country.link.value }}">http://countrylicious.com/{{
+                    country.link.value }}</a></dd>
+            </dl>
+        </div>
+
+        <div class="col-sm-5">
+            <h2>Largest Cities</h2>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr class="bg-primary">
+                        <th class="col-sm-7">
+                            City
+                        </th>
+                        <th class="col-sm-5 numeric">
+                            Population
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="city in cities" class="country-row">
+                        <td>{{ city.values.name.value }}</td>
+                        <td class="numeric">{{ city.values.population.value | number:0 }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

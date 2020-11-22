@@ -1,0 +1,104 @@
+<!--/**
+* restifydb - expose your databases as REST web services in minutes
+*
+* @copyright (C) 2020 Daniel CHIRITA
+* @version 1.1
+* @author Daniel CHIRITA
+* @link https://restifydb.com/
+*
+* This file is part of restifydb demos.
+*
+* @license https://restifydb.com/#license
+*
+*/-->
+
+<div ng-cloak="">
+    <h1>Countries of the World</h1>
+
+    <p class="history">
+        This is a demo application explaining how to consume data which is exposed by the restifydb. It is built using
+        the
+        AngularJS framework and it tries to prove how easy it is to build applications on top of restifydb. Please
+        note
+        that there is no backend component whatsoever. Data is retrieved as JSON and consumed on the client-side. The
+        facts
+        needed to write this application were provided by <a href="http://countrylicious.com" target="_blank">countrylicious.com</a>.
+    </p>
+    </p>
+
+    <div class="table-responsive">
+        <table class="table ">
+            <thead>
+            <tr class="bg-primary">
+                <th colspan="2" class="col-md-3">
+                    Country name
+                    <a href="#{{ constructSortingHref(4, 1) }}"><i class="fa fa-sort-asc fa-fw"
+                                                                   title="sort ascending by population"></i></a>
+                    <a href="#{{ constructSortingHref(4, 2) }}"><i class="fa fa-sort-desc fa-fw"
+                                                                   title="sort descending by population"></i></a>
+                </th>
+                <th class="col-md-2">
+                    Region
+                    <a href="#/1" ng-show="{{regionId != -1}}"><i class="fa fa-remove fa-fw"
+                                                                  title="remove filtering"></i></a>
+                </th>
+                <th class="col-md-1">
+                    Capital
+                </th>
+                <th class="numeric" class="col-md-2">
+                    Population
+                    <a href="#{{ constructSortingHref(1, 1) }}"><i class="fa fa-sort-asc fa-fw"
+                                                                   title="sort ascending by population"></i></a>
+                    <a href="#{{ constructSortingHref(1, 2) }}"><i class="fa fa-sort-desc fa-fw"
+                                                                   title="sort descending by population"></i></a>
+                </th>
+                <th class="numeric" class="col-md-1">
+                    Area (sq. km)
+                    <a href="#{{ constructSortingHref(2, 1) }}"><i class="fa fa-sort-asc fa-fw"
+                                                                   title="sort ascending by area"></i></a>
+                    <a href="#{{ constructSortingHref(2, 2) }}"><i class="fa fa-sort-desc fa-fw"
+                                                                   title="sort descending by area"></i></a>
+                </th>
+                <th class="numeric" class="col-md-2">
+                    GDP ($)
+                    <a href="#{{ constructSortingHref(3, 1) }}"><i class="fa fa-sort-asc fa-fw"
+                                                                   title="sort ascending by GDP"></i></a>
+                    <a href="#{{ constructSortingHref(3, 2) }}"><i class="fa fa-sort-desc fa-fw"
+                                                                   title="sort descending by GDP"></i></a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="country in countries" class="country-row">
+                <td>
+                    <div class="center flag flag-{{ country.values.isocode.value }}"></div>
+                </td>
+                <td><a href="#/details/{{ country.values.countryid.value }}">{{ country.values.name.value }}</a></td>
+                <td><a href="#/region/{{ country.values.regionid.outReference.values.regionid }}/1">{{
+                    country.values.regionid.outReference.values.name }}</a></td>
+                <td>{{ country.values.capital.value }}</td>
+                <td class="numeric">{{ country.values.population.value | number:0 }}</td>
+                <td class="numeric">{{ country.values.area.value | number:0 }}</td>
+                <td class="numeric">{{ country.values.gdp.value | number:0 }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <nav>
+        <ul class="pager">
+            <li ng-class="currentPage == 1 ? 'disabled' : ''"><a href="#{{ constructPagingHref(1) }}"><i
+                    class="fa fa-angle-double-left fa-fw"></i></a></li>
+            <li ng-class="currentPage == 1 ? 'disabled' : ''"><a href="#{{ constructPagingHref(paging.prevPage) }}"><i
+                    class="fa fa-angle-left fa-fw"></i></a></li>
+            <li> {{ paging.total }} countries, page {{ paging.currentPage }} of {{ paging.pageCount }}</li>
+            <li ng-class="currentPage == pageCount ? 'disabled' : ''"><a
+                    href="#{{ constructPagingHref(paging.nextPage) }}"><i
+                    class="fa fa-angle-right fa-fw"></i></a></li>
+            <li ng-class="currentPage == pageCount ? 'disabled' : ''"><a
+                    href="#{{ constructPagingHref(paging.pageCount) }}"><i
+                    class="fa fa-angle-double-right fa-fw"></i></a>
+            </li>
+        </ul>
+    </nav>
+</div>

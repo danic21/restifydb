@@ -1,0 +1,12 @@
+Options -indexes
+
+DirectoryIndex index.php
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php [L]
+
+<ifModule mod_deflate.c>
+    SetOutputFilter DEFLATE
+</ifModule>

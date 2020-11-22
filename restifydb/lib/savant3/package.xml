@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.8.0alpha1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0"
+         xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+    <name>Savant3</name>
+    <channel>phpsavant.com</channel>
+    <summary>A PHP5 template system that uses PHP for its logic; provides path searching, plugins, filters, and an
+        optional compiler system.
+    </summary>
+    <description>Savant3 is an object-oriented system to help keep manipulation
+        logic (&apos;model&apos; or &apos;controller&apos; scripts) separate from display
+        logic (&apos;view&apos; scripts) using PHP-based templates. Savant3 is
+        E_STRICT compliant for PHP5, provides a plugin model for
+        convenience methods, supports output filter callbacks, allows
+        for custom compilers, and provides path searching for themed
+        (skinned) applications.
+    </description>
+    <lead>
+        <name>Paul M. Jones</name>
+        <user>pmjones</user>
+        <email>pmjones@ciaweb.net</email>
+        <active>yes</active>
+    </lead>
+    <lead>
+        <name>Brett Bieber</name>
+        <user>saltybeagle</user>
+        <email>brett.bieber@gmail.com</email>
+        <active>yes</active>
+    </lead>
+    <date>2009-04-03</date>
+    <time>13:10:04</time>
+    <version>
+        <release>3.0.1</release>
+        <api>3.0.1</api>
+    </version>
+    <stability>
+        <release>stable</release>
+        <api>stable</api>
+    </stability>
+    <license>LGPL License</license>
+    <notes>
+        * Modify __toString method signature for compatibility with PHP 5.3.
+        No parameters should be sent. If you need to send a template parameter, use fetch($tpl) or setTemplate($tpl)
+        then echo $savant.
+
+        Thanks, Dan Bettles.
+
+        * Add public method getOutput($tpl = null) which will return the output including error_text if an error occurs.
+    </notes>
+    <contents>
+        <dir baseinstalldir="/" name="/">
+            <dir name="Savant3">
+                <dir name="resources">
+                    <file name="Savant3_Filter_trimwhitespace.php" role="php"/>
+                    <file name="Savant3_Plugin_ahref.php" role="php"/>
+                    <file name="Savant3_Plugin_date.php" role="php"/>
+                    <file name="Savant3_Plugin_htmlAttribs.php" role="php"/>
+                    <file name="Savant3_Plugin_image.php" role="php"/>
+                </dir>
+                <!-- /Savant3/resources -->
+                <file name="Error.php" role="php"/>
+                <file name="Exception.php" role="php"/>
+                <file name="Filter.php" role="php"/>
+                <file name="Plugin.php" role="php"/>
+            </dir>
+            <!-- /Savant3 -->
+            <dir name="tests">
+                <dir name="resources">
+                    <file name="savant.gif" role="test"/>
+                    <file name="Savant3_Plugin_fester.php" role="test"/>
+                </dir>
+                <!-- /tests/resources -->
+                <dir name="templates">
+                    <file name="02_output.tpl.php" role="test"/>
+                    <file name="03_filters.tpl.php" role="test"/>
+                    <file name="04_plugins_ahref.tpl.php" role="test"/>
+                    <file name="04_plugins_date.tpl.php" role="test"/>
+                    <file name="04_plugins_fester.tpl.php" role="test"/>
+                    <file name="04_plugins_form.tpl.php" role="test"/>
+                    <file name="04_plugins_image.tpl.php" role="test"/>
+                    <file name="06_includes.tpl.php" role="test"/>
+                    <file name="07_escape.tpl.php" role="test"/>
+                    <file name="footer.tpl.php" role="test"/>
+                    <file name="header.tpl.php" role="test"/>
+                </dir>
+                <!-- /tests/templates -->
+                <file name="00_prepend.php" role="test"/>
+                <file name="01_assign.phpt" role="test"/>
+                <file name="02_output.phpt" role="test"/>
+                <file name="03_filters.phpt" role="test"/>
+                <file name="04_plugins_ahref.phpt" role="test"/>
+                <file name="04_plugins_date.phpt" role="test"/>
+                <file name="04_plugins_fester.phpt" role="test"/>
+                <file name="04_plugins_image.phpt" role="test"/>
+                <file name="05_errors.phpt" role="test"/>
+                <file name="06_includes.phpt" role="test"/>
+                <file name="07_escape.phpt" role="test"/>
+                <file name="08_autoload.phpt" role="test"/>
+            </dir>
+            <!-- /tests -->
+            <file name="Savant3.php" role="php"/>
+        </dir>
+        <!-- / -->
+    </contents>
+    <dependencies>
+        <required>
+            <php>
+                <min>5.1.0</min>
+            </php>
+            <pearinstaller>
+                <min>1.4.3</min>
+            </pearinstaller>
+        </required>
+    </dependencies>
+    <phprelease/>
+    <changelog>
+        <release>
+            <version>
+                <release>3.0.0</release>
+                <api>3.0.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <date>2006-01-01</date>
+            <license>LGPL License</license>
+            <notes>
+                * Plugin htmlAttribs no longer renders a key when its value
+                is null.
+
+                * Removed the deprecated _() method; use eprint() instead.
+
+                * Added &quot;avoidance&quot; code to __call() and eprint() so they
+                don&apos;t use call_user_func_array() as much; thanks to Andreas
+                Korthaus for profiling the code and finding out how slow
+                call_user_func_array() can be.
+
+                * Added setAutoload() method to tell Savant whether or not
+                to use __autoload() when checking class_exists() on plugins,
+                filters, etc. All class_exists() calls now honor that
+                setting (which is false by default). Thanks to
+                Felix-Gabriel Gangu, David Mytton, and Ian Eure for their
+                discovery and discussion of the problem.
+
+                * Fixed bugs in stream support due to improper strpos()
+                param order. Thanks, Antti Holvikari.
+            </notes>
+        </release>
+        <release>
+            <version>
+                <release>3.0.1</release>
+                <api>3.0.1</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <date>2009-04-03</date>
+            <license>LGPL License</license>
+            <notes>
+                * Modify __toString method signature for compatibility with PHP 5.3.
+                No parameters should be sent. If you need to send a template parameter, use fetch($tpl) or
+                setTemplate($tpl) then echo $savant.
+
+                Thanks, Dan Bettles.
+
+                * Add public method getOutput($tpl = null) which will return the output including error_text if an error
+                occurs.
+            </notes>
+        </release>
+    </changelog>
+</package>

@@ -1,0 +1,108 @@
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+p {
+    text-align: justify;
+}
+
+.navbar-brand {
+    padding: 0 0 0 15px;
+    margin-right: 10px;
+    height: 60px;
+}
+
+.navbar-header img {
+    margin-top: 4px;
+}
+
+.navbar-default {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.15),0 1px 5px rgba(0,0,0,.075);
+}
+
+.nav > li {
+    padding-top: 5px;
+}
+
+li {
+    text-align: justify;
+    margin: 4px 0;
+}
+
+h1 {
+    margin-top: 0;
+    font-size: 32px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+h3 {
+    font-size: 20px;
+}
+
+
+.topic {
+    border-bottom: 1px solid #ddd;
+    padding: 16px 0;
+    margin: 16px 0;
+}
+
+#intro {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+ul.affix-top {
+    width: 210px;
+}
+
+ul.affix {
+    width: 210px;
+    top: 20px;
+}
+
+#output {
+    font-family: "Courier New", Courier, monospace;
+    margin-top: 1em;
+    background-color: #fdfdfd;
+    max-height: 500px;
+
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+
+#output ul {
+    list-style-type: none;
+}
+
+#output ul li {
+    margin: 1px 0;
+}
+
+#output span.key {
+    font-weight: bold;
+}
+
+#output span.value {
+    color: #008000;
+}
+
+#output span.node {
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#output ul.first {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#sidebar li {
+    text-align: left;
+}

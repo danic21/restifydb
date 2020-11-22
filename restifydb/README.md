@@ -6,5 +6,3 @@ as automatic query expansion (joining based on foreign keys), automatic inward r
 filtering, sorting and out of the box CRUD operations (create, read, update and delete data). Most of these features 
 are used by our demo application built using restifydb. It also features an admin panel which makes configuring it 
 quite easy.
-
-https://restifydb.com/
