@@ -16,7 +16,8 @@
 
 namespace admin\framework;
 
-require_once(__DIR__ . '/../../lib/savant3/Savant3.php');
+use SavantPHP\SavantPHP;
+
 session_start();
 
 abstract class BaseController
@@ -27,7 +28,7 @@ abstract class BaseController
 
     function __construct()
     {
-        $this->tpl = new \Savant3();
+        $this->tpl = new SavantPHP();
     }
 
     public function render($templateName)

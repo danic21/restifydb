@@ -2,6 +2,7 @@
     "require": {
         "laminas/laminas-db": "^2.11",
         "laminas/laminas-crypt": "^3.3",
-        "willdurand/negotiation": "^3.0"
+        "willdurand/negotiation": "^3.0",
+        "sevenphp/savantphp": "^3.0"
     }
 }
