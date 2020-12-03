@@ -1,6 +1,7 @@
 {
     "require": {
         "laminas/laminas-db": "^2.11",
-        "laminas/laminas-crypt": "^3.3"
+        "laminas/laminas-crypt": "^3.3",
+        "willdurand/negotiation": "^3.0"
     }
 }

@@ -28,6 +28,9 @@ class HTTPUtils
     const METHOD_DELETE = 'delete';
     static public $ALLOWED_METHODS = array(self::METHOD_GET, self::METHOD_POST, self::METHOD_PUT, self::METHOD_DELETE);
 
+    const CONTENT_TYPE_JSON = 'application/json';
+    const CONTENT_TYPE_XML = 'application/xml';
+
     private static $HTTP_STATUS_CODE = array(
         100 => 'Continue',
         101 => 'Switching Protocols',
@@ -120,17 +123,22 @@ class HTTPUtils
     public static function getViewTypeFromAcceptHeader()
     {
         if (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT']) {
-            $accepts = new \AcceptHeader($_SERVER['HTTP_ACCEPT']);
-            foreach ($accepts as $accept) {
-                $type = $accept['type'] . '/' . $accept['subtype'];
-                if (StringUtils::startsWith($type, 'application/xml')) {
-                    return Constants::VIEW_TYPE_XML;
-                } else if (StringUtils::startsWith($type, 'application/json')) {
-                    return Constants::VIEW_TYPE_JSON;
-                }
-            }
+            $negotiator = new \Negotiation\Negotiator();
+            $mediaType = $negotiator->getBest($_SERVER['HTTP_ACCEPT'], array(self::CONTENT_TYPE_JSON, self::CONTENT_TYPE_XML));
+
+            return self::toViewType($mediaType->getValue());
         }
-        return null;
+        return Constants::DEFAULT_VIEW_TYPE;
+    }
+
+    private static function toViewType($type) {
+        if (StringUtils::startsWith($type, self::CONTENT_TYPE_XML)) {
+            return Constants::VIEW_TYPE_XML;
+        } else if (StringUtils::startsWith($type, self::CONTENT_TYPE_XML)) {
+            return Constants::VIEW_TYPE_JSON;
+        }
+
+        return Constants::DEFAULT_VIEW_TYPE;
     }
 
 

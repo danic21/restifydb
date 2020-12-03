@@ -77,9 +77,6 @@ class RequestManager
             $viewFromParam = true;
         } else {
             $viewType = HTTPUtils::getViewTypeFromAcceptHeader();
-            if (!$viewType) {
-                $viewType = Constants::DEFAULT_VIEW_TYPE;
-            }
         }
 
         $start = 0;

@@ -45,7 +45,7 @@ class Constants
 
     const MAX_OUTPUT_SIZE = 2048;
 
-    const DEFAULT_VIEW_TYPE = 'json';
+    const DEFAULT_VIEW_TYPE = self::VIEW_TYPE_JSON;
     const VIEW_TYPE_XML = 'xml';
     const VIEW_TYPE_JSON = 'json';
 
