@@ -25,9 +25,9 @@ use restify\exceptions\Exceptions;
 use restify\exceptions\RestifyException;
 use restify\utils\HTTPUtils;
 use restify\utils\MetadataUtils;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Insert;
-use Zend\Db\TableGateway\TableGateway;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Insert;
+use Laminas\Db\TableGateway\TableGateway;
 
 class CreateExecutor extends BaseExecutor
 {

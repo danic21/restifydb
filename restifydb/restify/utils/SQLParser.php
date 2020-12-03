@@ -19,7 +19,7 @@ namespace restify\utils;
 
 use restify\exceptions\Exceptions;
 use restify\exceptions\RestifyException;
-use Zend\Db\Sql\Select;
+use Laminas\Db\Sql\Select;
 
 class SQLParser
 {

@@ -21,10 +21,10 @@ use restify\Constants;
 use restify\exceptions\Exceptions;
 use restify\exceptions\RestifyException;
 use restify\utils\SQLUtils;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Metadata\Metadata;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\Metadata;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 
 class StorageManager
 {
@@ -51,7 +51,7 @@ class StorageManager
     {
         $dir = __DIR__ . '/../../config/';
         return array(
-            'driver' => 'Pdo_Sqlite',
+            'driver' => 'pdo_sqlite',
             'dir' => $dir,
             'database' => $dir . self::DB_NAME
         );
@@ -59,6 +59,7 @@ class StorageManager
 
     private static function getAdapter()
     {
+        //TODO check to see if sqlite is installed
         $adapter = new Adapter(self::getConfigDbParams());
         return $adapter;
     }

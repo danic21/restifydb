@@ -23,10 +23,10 @@ use restify\exceptions\Exceptions;
 use restify\exceptions\RestifyException;
 use restify\utils\MetadataUtils;
 use restify\utils\SQLUtils;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Delete;
-use Zend\Db\TableGateway\Feature;
-use Zend\Db\TableGateway\TableGateway;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Delete;
+use Laminas\Db\TableGateway\Feature;
+use Laminas\Db\TableGateway\TableGateway;
 
 
 class DeleteExecutor extends BaseExecutor

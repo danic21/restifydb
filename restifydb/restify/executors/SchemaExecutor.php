@@ -22,7 +22,7 @@ use restify\config\StorageManager;
 use restify\Constants;
 use restify\utils\HTTPUtils;
 use restify\utils\MetadataUtils;
-use Zend\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Adapter;
 
 class SchemaExecutor extends BaseExecutor
 {

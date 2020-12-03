@@ -25,9 +25,9 @@ use restify\exceptions\RestifyException;
 use restify\utils\HTTPUtils;
 use restify\utils\MetadataUtils;
 use restify\utils\SQLUtils;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Update;
-use Zend\Db\TableGateway\TableGateway;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Update;
+use Laminas\Db\TableGateway\TableGateway;
 
 class UpdateExecutor extends BaseExecutor
 {

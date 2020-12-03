@@ -19,6 +19,8 @@ require_once __DIR__ . '/../restify/Constants.php';
 $version = restify\Constants::PRODUCT_VERSION;
 header("X-Powered-By: restifydb/$version");
 
+require __DIR__ . '/../vendor/autoload.php';
+
 spl_autoload_register(function ($className) {
     if (strpos($className, 'restify') !== 0 && strpos($className, 'admin') !== 0) {
         $className = __DIR__ . '/../lib/' . $className;

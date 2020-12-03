@@ -16,7 +16,7 @@
 
 namespace restify\utils;
 
-use Zend\Db\Metadata\Metadata;
+use Laminas\Db\Metadata\Metadata;
 
 class MetadataUtils
 {

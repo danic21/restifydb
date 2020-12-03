@@ -27,9 +27,9 @@ use restify\utils\SQLParser;
 use restify\utils\SQLUtils;
 use restify\utils\StringUtils;
 use restify\utils\Utils;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use Zend\Db\TableGateway\Feature;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\TableGateway\Feature;
 
 /**
  * Abstracts the read from a given table operation.

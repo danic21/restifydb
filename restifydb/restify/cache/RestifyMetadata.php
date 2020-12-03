@@ -18,9 +18,8 @@ namespace restify\cache;
 
 
 use restify\exceptions\RestifyException;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Metadata\Metadata;
-use Zend\Db\Metadata\Object;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\Metadata;
 
 class RestifyMetadata extends Metadata
 {

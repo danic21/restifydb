@@ -15,7 +15,7 @@
 
 namespace restify\cache;
 
-use Zend\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Adapter;
 
 class MetadataCache
 {
