@@ -20,7 +20,7 @@ namespace restify;
 class Constants
 {
 
-    const PRODUCT_VERSION = '1.1.0';
+    const PRODUCT_VERSION = '2.0.0-alpha';
 
     const PARAM_VIEW_TYPE = '_view';
     const PARAM_LIMIT = '_count';
