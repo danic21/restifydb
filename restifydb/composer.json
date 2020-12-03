@@ -1,5 +1,6 @@
 {
     "require": {
-        "laminas/laminas-db": "^2.11"
+        "laminas/laminas-db": "^2.11",
+        "laminas/laminas-crypt": "^3.3"
     }
 }
