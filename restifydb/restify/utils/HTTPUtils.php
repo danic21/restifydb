@@ -141,7 +141,6 @@ class HTTPUtils
         return Constants::DEFAULT_VIEW_TYPE;
     }
 
-
     public static function appendParams($url, $request, $appendBaseParams = true, $otherParams = null)
     {
         $params = $otherParams ? $otherParams : array();
