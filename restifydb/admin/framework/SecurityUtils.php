@@ -19,7 +19,7 @@ namespace admin\framework;
 
 use restify\Constants;
 use restify\utils\HTTPUtils;
-use Zend\Crypt\Password\Bcrypt;
+use Laminas\Crypt\Password\Bcrypt;
 
 class SecurityUtils
 {
