@@ -24,8 +24,8 @@ use restify\utils\HTTPUtils;
 use restify\utils\MetadataUtils;
 use restify\utils\MimeTypeUtils;
 use restify\utils\Utils;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Sql;
 
 require_once(__DIR__ . '/../restify/bootstrap.php');
 

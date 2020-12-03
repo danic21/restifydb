@@ -24,7 +24,7 @@ use restify\cache\MetadataCache;
 use restify\config\StorageManager;
 use restify\exceptions\RestifyException;
 use restify\utils\HTTPUtils;
-use Zend\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Adapter;
 
 class Db extends SecuredBaseController
 {

@@ -25,7 +25,7 @@ use restify\config\StorageManager;
 use restify\exceptions\Exceptions;
 use restify\exceptions\RestifyException;
 use restify\utils\HTTPUtils;
-use Zend\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Adapter;
 
 class ReCacheWS extends SimpleWebService
 {
