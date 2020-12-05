@@ -26,6 +26,7 @@ use Laminas\Db\Metadata\Metadata;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\Where;
 
+  
 class StorageManager
 {
     private static $config = array();
@@ -59,7 +60,6 @@ class StorageManager
 
     private static function getAdapter()
     {
-        //TODO check to see if sqlite is installed
         $adapter = new Adapter(self::getConfigDbParams());
         return $adapter;
     }
@@ -96,7 +96,7 @@ class StorageManager
             $statement = $sql->prepareStatementForSqlObject($select);
             $results = $statement->execute();
             foreach ($results as $row) {
-                $config[$row['key']] = @unserialize($row['value']);
+                $config[$row['key']] = @json_decode($row['value'], true);
             }
 
             $config['_loaded'] = true;
@@ -137,7 +137,7 @@ class StorageManager
         $insert->into(self::CONFIG_TABLE_NAME);
         $insert->values(array(
             'key' => $section,
-            'value' => serialize($value)
+            'value' => json_encode($value, JSON_PRETTY_PRINT)
         ));
         $statement = $sql->prepareStatementForSqlObject($insert);
         $statement->execute();
