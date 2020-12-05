@@ -21,4 +21,10 @@ header("X-Powered-By: restifydb/$version");
 
 require __DIR__ . '/../vendor/autoload.php';
 
+function uncaughtExceptionHandler($exception) {
+    die("Uncaught exception: {$exception->getMessage()}");
+}
+  
+set_exception_handler('uncaughtExceptionHandler');
+
 ?>
