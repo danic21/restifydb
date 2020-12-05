@@ -10,5 +10,8 @@
             "restify\\": "restify/",
             "restify\\admin\\": "admin/"
         }
+    },
+    "config": {
+        "optimize-autoloader": true
     }
 }
