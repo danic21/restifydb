@@ -14,12 +14,12 @@
  */
 
 
-namespace admin\ws;
+namespace restify\admin\ws;
 
 session_start();
 require_once(dirname(__FILE__) . '/../../restify/bootstrap.php');
 
-use admin\framework\SimpleWebService;
+use restify\admin\framework\SimpleWebService;
 use restify\config\StorageManager;
 use restify\exceptions\Exceptions;
 use restify\exceptions\RestifyException;
