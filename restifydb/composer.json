@@ -4,5 +4,11 @@
         "laminas/laminas-crypt": "^3.3",
         "willdurand/negotiation": "^3.0",
         "sevenphp/savantphp": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "restify\\": "restify/",
+            "restify\\admin\\": "admin/"
+        }
     }
 }

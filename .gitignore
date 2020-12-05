@@ -2,3 +2,4 @@ restifydb/cache/
 restifydb/config/restify_config.db
 restifydb/vendor/
 restifydb/.vscode/
+restifydb/config/sqlite3.exe

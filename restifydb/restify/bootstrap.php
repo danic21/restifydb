@@ -21,14 +21,4 @@ header("X-Powered-By: restifydb/$version");
 
 require __DIR__ . '/../vendor/autoload.php';
 
-spl_autoload_register(function ($className) {
-    if (strpos($className, 'restify') !== 0 && strpos($className, 'admin') !== 0) {
-        $className = __DIR__ . '/../lib/' . $className;
-    } else {
-        $className = __DIR__ . '/../' . $className;
-    }
-    $className = str_replace('\\', '/', $className) . '.php';
-    require_once($className);
-});
-
 ?>

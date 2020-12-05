@@ -14,9 +14,9 @@
  */
 
 
-namespace admin;
+namespace restify\admin;
 
-use admin\framework\SecurityUtils;
+use restify\admin\framework\SecurityUtils;
 
 require_once(dirname(__FILE__) . '/../restify/bootstrap.php');
 

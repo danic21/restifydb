@@ -14,7 +14,7 @@
  */
 
 
-namespace admin\framework;
+namespace restify\admin\framework;
 
 
 abstract class SecuredBaseController extends BaseController

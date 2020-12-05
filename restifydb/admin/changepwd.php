@@ -14,12 +14,12 @@
  */
 
 
-namespace admin;
+namespace restify\admin;
 
 require_once(dirname(__FILE__) . '/../restify/bootstrap.php');
 
-use admin\framework\SecuredBaseController;
-use admin\framework\SecurityUtils;
+use restify\admin\framework\SecuredBaseController;
+use restify\admin\framework\SecurityUtils;
 use restify\config\StorageManager;
 use restify\Constants;
 use restify\exceptions\Exceptions;
