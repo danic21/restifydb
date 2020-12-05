@@ -3,7 +3,7 @@
  * restifydb - expose your databases as REST web services in minutes
  *
  * @copyright (C) 2020 Daniel CHIRITA
- * @version 1.1
+ 
  * @author Daniel CHIRITA
  * @link https://restifydb.com/
  *
@@ -66,7 +66,7 @@ abstract class UIController extends BaseUIController
                     $out .= '<span class="key">' . htmlentities($k) . '</span>';
                     $out .= ' = ';
                     if (preg_match('/https?\:.*/', $v)) {
-                        $url = 'https://restifydb.com/demos/viewer/index.php?url=' . Utils::url64Encode($v);
+                        $url = 'index.php?url=' . Utils::url64Encode($v);
                         $out .= '<a href="' . $url . '" title="Click to follow" target="_blank">&quot;' . htmlentities($v) . '&quot;</a>';
                     } else {
                         $out .= '<span class="value">&quot;' . htmlentities($v) . '&quot;</span>';

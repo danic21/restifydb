@@ -4,7 +4,7 @@
  * restifydb - expose your databases as REST web services in minutes
  *
  * @copyright (C) 2020 Daniel CHIRITA
- * @version 1.1
+ 
  * @author Daniel CHIRITA
  * @link https://restifydb.com/
  *
@@ -26,7 +26,7 @@ class Config
             'user' => '',
             'password' => ''
         ),
-        'restifyPath' => 'http://restify-local:99/'
+        'restifyPath' => 'http://restify-api/'
     );
 
     public static function getConfig()
